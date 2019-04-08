@@ -1,8 +1,9 @@
 class Post {
-    constructor(id, userId, type) {
+    constructor(id, userId, type, comments) {
         this.id = id;
         this.userId = userId;
         this.type = type;
+        this.comments = comments;
     }
 
     isVideo() {
@@ -19,22 +20,22 @@ class Post {
 }
 
 class VideoPost extends Post {
-    constructor(id, userId, type, videoUrl) {
-        super(id, userId, type)
+    constructor(id, userId, type, comments, videoUrl) {
+        super(id, userId, type, comments)
         this.videoUrl = videoUrl;
     }
 }
 
 class ImagePost extends Post {
-    constructor(id, userId, type, imageUrl) {
-        super(id, userId, type)
+    constructor(id, userId, type, comments, imageUrl) {
+        super(id, userId, type, comments)
         this.imageUrl = imageUrl;
     }
 }
 
 class TextPost extends Post {
-    constructor(id, userId, type, text) {
-        super(id, userId, type)
+    constructor(id, userId, type, text, comments) {
+        super(id, userId, type, comments)
         this.text = text;
     }
 }

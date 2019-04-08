@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchPosts } from '../../../services/Posts';
 
 class PostsFeed extends Component {
@@ -19,7 +20,7 @@ class PostsFeed extends Component {
     }
 
     showPosts() {
-        if (!this.state.posts) {
+        if (!this.state.posts.length) {
             return <h1 className='center'>Loading...</h1>
         }
 
@@ -33,7 +34,7 @@ class PostsFeed extends Component {
                                     <p className='center'>{post.text}</p>
                                 </div>
                                 <div className="card-action">
-                                    <a className='brown-text text-darken-4' href="/">Text post</a>
+                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
                                     <a className='right brown-text text-darken-4' href="/">15 Comments</a>
                                 </div>
                             </div>
@@ -49,7 +50,7 @@ class PostsFeed extends Component {
                                     <img src={post.imageUrl} alt='Something' />
                                 </div>
                                 <div className="card-action">
-                                    <a className='brown-text text-darken-4' href="/">Image post</a>
+                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
                                     <a className='right brown-text text-darken-4' href="/">15 Comments</a>
                                 </div>
                             </div>
@@ -65,7 +66,7 @@ class PostsFeed extends Component {
                                     <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                                 </div>
                                 <div className="card-action">
-                                    <a className='brown-text text-darken-4' href="/">Video post</a>
+                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
                                     <a className='right brown-text text-darken-4' href="/">15 Comments</a>
                                 </div>
                             </div>
