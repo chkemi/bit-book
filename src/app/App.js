@@ -12,8 +12,9 @@ class App extends Component {
     return (
       <>
         <Header />
-        <main>
+        <main className='container'>
           <Switch>
+            {/* <Route path='/feeds/:id' component={SinglePost} /> */}
             <Route path='/' component={PostsFeed} />
           </Switch>
         </main>
