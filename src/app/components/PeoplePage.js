@@ -24,7 +24,7 @@ class PeoplePage extends Component {
 
     changeValue(e) {
         this.setState({
-            inputValue: e.target.value,
+            inputValue: e.target.value
         })
     }
 
@@ -46,19 +46,27 @@ class PeoplePage extends Component {
     }
 
     showPeople() {
-        return this.state.users.map((user) => {
-            return (
-                <div key={user.id} className='user clearfix valign-wrapper'>
-                    <div className='image left'>
+        console.log(this.state.users)
+        return this.state.users
+            .filter((user) => {
+                const fullName = `${user.firstName} ${user.lastName}`;
+                return fullName.toLowerCase().includes(this.state.inputValue.toLowerCase())
+            })
+            .map((user) => (
+                <div key={user.id} className='row user clearfix valign-wrapper'>
+                    <div className='image left col s2'>
                         <img src={user.avatarUrl} alt='Something..' />
                     </div>
-                    <div className='info'>
+                    <div className='info col s9'>
                         <h5>{`${user.firstName} ${user.lastName}`}</h5>
                         <p>Short user description: {user.biography}</p>
                     </div>
+                    <div className='right col s1'>
+                        <p>Last post at {user.createdAt}</p>
+                    </div>
                 </div>
             )
-        })
+            )
     }
 
     render() {

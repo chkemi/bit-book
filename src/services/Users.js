@@ -24,7 +24,7 @@ const fetchUsers = () => {
         }
     })
         .then(res => res.json())
-        .then(users => users.map(user => new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts)))
+        .then(users => users.map(user => new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)))
 }
 
 export {
