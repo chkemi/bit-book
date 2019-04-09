@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
 import { fetchUserById } from '../../../services/Users';
 
+import './SinglePost.css'
+
 class SinglePost extends Component {
     constructor(props) {
         super(props);
@@ -38,7 +40,7 @@ class SinglePost extends Component {
 
         if (this.state.post.isText()) {
             return (
-                <div key={this.state.post.id} className="row">
+                <div key={this.state.post.id} className="row post">
                     <div className="col s12">
                         <div className="card teal lighten-4">
                             <div className="card-content brown-text text-darken-4">
@@ -54,7 +56,7 @@ class SinglePost extends Component {
             )
         } else if (this.state.post.isPicture()) {
             return (
-                <div key={this.state.post.id} className="row">
+                <div key={this.state.post.id} className="row post">
                     <div className="col s12">
                         <div className="card teal lighten-4">
                             <div className="card-image">
@@ -70,7 +72,7 @@ class SinglePost extends Component {
             )
         } else {
             return (
-                <div key={this.state.post.id} className="row">
+                <div key={this.state.post.id} className="row post">
                     <div className="col s12">
                         <div className="card teal lighten-4">
                             <div key={this.state.post.id}>
@@ -112,7 +114,7 @@ class SinglePost extends Component {
                 {this.showPost()}
                 <form method='POST' action='/'>
                     <input type='text' placeholder='Add your comment' />
-                    <input type='submit' />
+                    <input type='submit' className='teal white-text' />
                 </form>
                 {this.showComments()}
             </>
