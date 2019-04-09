@@ -1,7 +1,7 @@
 import { TextPost, ImagePost, VideoPost } from "../models/Post";
 
 const fetchPosts = () => {
-    return fetch('https://book-api.hypetech.xyz/v1/posts', {
+    return fetch('https://book-api.hypetech.xyz/v1/posts?_embed=comments', {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V',

@@ -35,7 +35,7 @@ class PostsFeed extends Component {
                                 </div>
                                 <div className="card-action">
                                     <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                    <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@ class PostsFeed extends Component {
                                 </div>
                                 <div className="card-action">
                                     <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                    <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@ class PostsFeed extends Component {
                                 </div>
                                 <div className="card-action">
                                     <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                    <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
                                 </div>
                             </div>
                         </div>

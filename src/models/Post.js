@@ -34,7 +34,7 @@ class ImagePost extends Post {
 }
 
 class TextPost extends Post {
-    constructor(id, userId, type, text, comments) {
+    constructor(id, userId, type, comments, text) {
         super(id, userId, type, comments)
         this.text = text;
     }

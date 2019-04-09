@@ -26,7 +26,6 @@ class SinglePost extends Component {
                             users,
                             comments: post.comments
                         })
-                        console.log(users);
                     })
             })
 
