@@ -14,9 +14,8 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        fetchUserById(2)
+        fetchUserById(this.props.match.params.id)
             .then(user => {
-                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,

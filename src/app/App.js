@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 import PostsFeed from './components/PostsFeed/PostsFeed';
 import SinglePost from './components/PostsFeed/SinglePost';
 import MyProfile from './components/PostsFeed/MyProfile'
-import PeopePage from './components/PeoplePage';
+import PeoplePage from './components/PeoplePage';
 
 class App extends Component {
   render() {
@@ -17,8 +17,8 @@ class App extends Component {
         <Header />
         <main className='container'>
           <Switch>
-            <Route path='/people' component={PeopePage} />
-            <Route path='/profile' component={MyProfile} />
+            <Route path='/people' component={PeoplePage} />
+            <Route path='/profile/:id' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
             <Route path='/' component={PostsFeed} />
           </Switch>
