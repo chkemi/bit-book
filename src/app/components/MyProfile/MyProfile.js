@@ -1,6 +1,9 @@
 import React from 'react'
 import { fetchUserById } from '../../../services/Users'
 import './MyProfile.css'
+import Modal from '../Modal/Modal'
+
+
 
 
 class Profile extends React.Component {
@@ -9,7 +12,8 @@ class Profile extends React.Component {
         this.state = {
             user: null,
             comments: [],
-            posts: []
+            posts: [],
+            isShowing: false
         }
     }
 
@@ -24,6 +28,21 @@ class Profile extends React.Component {
                 })
             })
     }
+
+    openModal = () => {
+        this.setState({
+            isShowing: true
+        });
+    }
+
+    closeModal = () => {
+        this.setState({
+            isShowing: false
+        });
+    }
+
+
+
     render() {
 
         if (!this.state.user) {
@@ -35,11 +54,13 @@ class Profile extends React.Component {
                 <div className="row center profile">
                     <div className="col s12 ">
                         <div className="">
+                            {this.state.isShowing ? <Modal className="modal" show={this.state.isShowing} close={this.closeModal} image={this.state.user.avatarUrl} user={this.state.user} /> : null}
                             <div className="card-image">
                                 <img src={this.state.user.avatarUrl} alt="" className="circle responsive-img " />
                                 <h5 className="card-title">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5>
                             </div>
-                            <p>Edit profile</p>
+                            <button data-target="modal1" class="btn modal-trigger" onClick={this.openModal}>Edit Profile</button>
+
                             <div className="card-content">
                                 <p>{this.state.user.biography}</p>
                             </div>
