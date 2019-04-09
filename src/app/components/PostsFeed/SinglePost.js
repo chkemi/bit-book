@@ -13,6 +13,7 @@ class SinglePost extends Component {
             post: null,
             comments: [],
             users: [],
+            commentInputValue: '',
         }
     }
 
@@ -33,6 +34,9 @@ class SinglePost extends Component {
                         })
                     })
             })
+    }
+
+    changeValue(params) {
 
     }
 
@@ -51,7 +55,7 @@ class SinglePost extends Component {
                             </div>
                             <div className="card-action">
                                 <a className='brown-text text-darken-4' href="/">Text post</a>
-                                <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                <a className='right brown-text text-darken-4' href="/">{this.state.comments.length} Comments</a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +71,7 @@ class SinglePost extends Component {
                             </div>
                             <div className="card-action">
                                 <a className='brown-text text-darken-4' href="/">Image post</a>
-                                <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                <a className='right brown-text text-darken-4' href="/">{this.state.comments.length} Comments</a>
                             </div>
                         </div>
                     </div>
@@ -116,7 +120,7 @@ class SinglePost extends Component {
             <>
                 {this.showPost()}
                 <form method='POST' action='/'>
-                    <input type='text' placeholder='Add your comment' />
+                    <input type='text' placeholder='Add your comment' value={this.state.commentInputValue} onChange={this.changeValue} />
                     <input type='submit' className='teal white-text' />
                 </form>
                 {this.showComments()}
