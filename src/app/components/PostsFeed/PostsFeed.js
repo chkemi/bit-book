@@ -6,8 +6,14 @@ class PostsFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: []
+            posts: [],
+            filteredPosts: [],
         }
+
+        this.filterText = this.filterText.bind(this);
+        this.filterVideos = this.filterVideos.bind(this);
+        this.filterImages = this.filterImages.bind(this);
+        this.noFilter = this.noFilter.bind(this);
     }
 
     componentDidMount() {
@@ -77,9 +83,54 @@ class PostsFeed extends Component {
         })
     }
 
+    filterText(e) {
+        const filteredPosts = this.state.posts.filter((post) => {
+            return post.isText();
+        })
+
+        this.setState({
+            filteredPosts: this.state.posts,
+            posts: filteredPosts
+        })
+    }
+
+    filterVideos(e) {
+        const filteredPosts = this.state.posts.filter((post) => {
+            return post.isVideo();
+        })
+
+        this.setState({
+            filteredPosts: this.state.posts,
+            posts: filteredPosts
+        })
+    }
+
+    filterImages(e) {
+        const filteredPosts = this.state.posts.filter((post) => {
+            return post.isPicture();
+        })
+
+        this.setState({
+            filteredPosts: this.state.posts,
+            posts: filteredPosts
+        })
+    }
+
+    noFilter(e) {
+        this.setState({
+            posts: this.state.filteredPosts
+        })
+    }
+
     render() {
         return (
             <>
+                <div className='row'>
+                    <button className="waves-effect waves-light btn col s3" onClick={this.noFilter}>All Posts</button>
+                    <button className="waves-effect waves-light btn col s3" onClick={this.filterImages}>Images</button>
+                    <button className="waves-effect waves-light btn col s3" onClick={this.filterVideos}>Videos</button>
+                    <button className="waves-effect waves-light btn col s3" onClick={this.filterText}>Text</button>
+                </div>
                 {this.showPosts()}
             </>
         );
