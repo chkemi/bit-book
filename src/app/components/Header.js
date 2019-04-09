@@ -10,7 +10,7 @@ const Header = (props) => {
                     <ul id="nav-mobile" className="right">
                         <li><Link to='/'>Feed</Link></li>
                         <li><Link to='/people'>People</Link></li>
-                        <li><Link to='/profile'>Profile</Link></li>
+                        <li><Link to='/profile/2'>Profile</Link></li>
                     </ul>
                 </div>
             </nav>

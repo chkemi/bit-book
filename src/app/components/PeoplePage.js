@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { fetchUsers } from '../../services/Users';
+import { Link } from 'react-router-dom';
 
 import './PeoplePage.css'
 
@@ -46,7 +47,6 @@ class PeoplePage extends Component {
     }
 
     showPeople() {
-        console.log(this.state.users)
         return this.state.users
             .filter((user) => {
                 const fullName = `${user.firstName} ${user.lastName}`;
@@ -58,7 +58,7 @@ class PeoplePage extends Component {
                         <img src={user.avatarUrl} alt='Something..' />
                     </div>
                     <div className='info col s9'>
-                        <h5>{`${user.firstName} ${user.lastName}`}</h5>
+                        <h5><Link to={`profile/${user.id}`}>{`${user.firstName} ${user.lastName}`}</Link></h5>
                         <p>Short user description: {user.biography}</p>
                     </div>
                     <div className='right col s1'>
