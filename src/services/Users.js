@@ -16,6 +16,18 @@ const fetchUserById = (userId) => {
     });
 }
 
+const fetchUsers = () => {
+    return fetch('https://book-api.hypetech.xyz/v1/users', {
+        method: 'GET',
+        headers: {
+            'x-api-key': 'B1tD3V'
+        }
+    })
+        .then(res => res.json())
+        .then(users => users.map(user => new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts)))
+}
+
 export {
     fetchUserById,
+    fetchUsers,
 }
