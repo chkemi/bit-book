@@ -15,10 +15,10 @@ class App extends Component {
     return (
       <>
         <Header />
-        <MyProfile />
         <main className='container'>
 
           <Switch>
+            <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
             <Route path='/' component={PostsFeed} />
           </Switch>

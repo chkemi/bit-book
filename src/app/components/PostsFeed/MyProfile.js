@@ -1,5 +1,6 @@
 import React from 'react'
 import fetchUser from '../../../services/Users'
+import './MyProfile.css'
 
 
 class Profile extends React.Component {
@@ -19,10 +20,11 @@ class Profile extends React.Component {
                     user: user,
                     comments: user.comments,
                     posts: user.posts
+
                 })
+
             })
     }
-
     render() {
 
         if (!this.state.user) {
@@ -31,19 +33,20 @@ class Profile extends React.Component {
 
         return (
             <>
-                <div classNmae="row">
-                    <div classNmae="col s12 m7">
-                        <div classNmae="card">
-                            <div classNmae="card-image">
-                                <img src={this.state.user.image} />
-                                <h3 className="card-title">{this.state.user.name.first}</h3>
+                <div className="row center profile">
+                    <div className="col s12 ">
+                        <div className="">
+                            <div className="card-image">
+                                <img src={this.state.user.image} alt="" className="circle responsive-img " />
+                                <h5 className="card-title">{this.state.user.name}</h5>
                             </div>
-                            <div class="card-content">
+                            <p>Edit profile</p>
+                            <div className="card-content">
                                 <p>{this.state.user.biography}</p>
                             </div>
-                            <div class="card-action">
-                                <div className="posts"><span>C</span>Comments: {this.state.comments.length} </div>
-                                <div className="comments"><span>C</span>Post: {this.state.posts.length} </div>
+                            <div className="card-action">
+                                <div className="chip"><i className="fab fa-cuttlefish"></i> {this.state.comments.length} Comments  </div>
+                                <div className="chip"><i className="fab fa-cuttlefish"></i> {this.state.posts.length} posts </div>
                             </div>
                         </div>
                     </div>
