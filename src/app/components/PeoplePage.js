@@ -62,7 +62,7 @@ class PeoplePage extends Component {
                         <p>Short user description: {user.biography}</p>
                     </div>
                     <div className='right col s1'>
-                        <p>Last post at {user.createdAt}</p>
+                        <p>Last post at: <b>{user.createdAt}</b></p>
                     </div>
                 </div>
             )
