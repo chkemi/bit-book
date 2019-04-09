@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
 import { fetchUserById } from '../../../services/Users';
+import { User } from '../../../models/User';
+import { postComment } from '../../../services/Comments';
 
 import './SinglePost.css'
-import { User } from '../../../models/User';
 
 class SinglePost extends Component {
     constructor(props) {
@@ -15,6 +16,9 @@ class SinglePost extends Component {
             users: [],
             commentInputValue: '',
         }
+
+        this.changeValue = this.changeValue.bind(this);
+        this.submitComment = this.submitComment.bind(this);
     }
 
     componentDidMount() {
@@ -36,8 +40,31 @@ class SinglePost extends Component {
             })
     }
 
-    changeValue(params) {
+    changeValue(e) {
+        this.setState({
+            commentInputValue: e.target.value,
+        })
+    }
 
+    submitComment(e) {
+        e.preventDefault();
+
+        const body = {
+            postId: this.props.match.params.id,
+            body: this.state.commentInputValue
+        }
+
+        postComment(body)
+            .then((comment) => {
+                if (comment) {
+                    console.log(comment);
+                } else {
+                    console.log(comment);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     showPost() {
@@ -121,7 +148,7 @@ class SinglePost extends Component {
                 {this.showPost()}
                 <form method='POST' action='/'>
                     <input type='text' placeholder='Add your comment' value={this.state.commentInputValue} onChange={this.changeValue} />
-                    <input type='submit' className='teal white-text' />
+                    <input type='submit' className='teal white-text' onClick={this.submitComment} />
                 </form>
                 {this.showComments()}
             </>
