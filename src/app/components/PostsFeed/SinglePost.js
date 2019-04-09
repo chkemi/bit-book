@@ -148,7 +148,7 @@ class SinglePost extends Component {
                 {this.showPost()}
                 <form method='POST' action='/'>
                     <input type='text' placeholder='Add your comment' value={this.state.commentInputValue} onChange={this.changeValue} />
-                    <input type='submit' className='teal white-text' onClick={this.submitComment} />
+                    <input type='submit' className='teal white-text' onClick={this.submitComment} disabled={this.state.commentInputValue ? false : true} />
                 </form>
                 {this.showComments()}
             </>
