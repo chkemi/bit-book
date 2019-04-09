@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PostsFeed from './components/PostsFeed/PostsFeed';
 import SinglePost from './components/PostsFeed/SinglePost';
+import MyProfile from './components/PostsFeed/MyProfile'
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <Header />
         <main className='container'>
           <Switch>
+            <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
             <Route path='/' component={PostsFeed} />
           </Switch>
