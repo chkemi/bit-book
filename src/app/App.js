@@ -9,14 +9,12 @@ import PostsFeed from './components/PostsFeed/PostsFeed';
 import SinglePost from './components/PostsFeed/SinglePost';
 import MyProfile from './components/PostsFeed/MyProfile'
 
-
 class App extends Component {
   render() {
     return (
       <>
         <Header />
         <main className='container'>
-
           <Switch>
             <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />

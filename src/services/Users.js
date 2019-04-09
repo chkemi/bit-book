@@ -1,7 +1,7 @@
-import User from '../models/User'
+import { User } from '../models/User'
 
-const fetchUser = (userId) => {
-    let request = fetch(`https://book-api.hypetech.xyz/v1/users/${userId}?_embed[]=posts&_embed[]=comments`, {
+const fetchUserById = (userId) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}?_embed[]=posts&_embed[]=comments`, {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V',
@@ -10,10 +10,12 @@ const fetchUser = (userId) => {
     }).then(result => {
         return result.json()
     }).then(user => {
-        return new User(user.id, user.name.first, user.name.last, user.about.bio, user.about.job, user.avatarUrl, user.comments, user.posts)
-    })
-
-    return request;
+        return new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts)
+    }).catch((err) => {
+        return new User(0, 'http://via.placeholder.com/150', { first: 'anonymous', last: 'anonymous' }, { bio: 'no user' }, 0, 0)
+    });
 }
 
-export default fetchUser
+export {
+    fetchUserById,
+}

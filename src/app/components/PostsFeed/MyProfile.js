@@ -1,5 +1,5 @@
 import React from 'react'
-import fetchUser from '../../../services/Users'
+import { fetchUserById } from '../../../services/Users'
 import './MyProfile.css'
 
 
@@ -14,15 +14,14 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        fetchUser(2)
+        fetchUserById(2)
             .then(user => {
+                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,
                     posts: user.posts
-
                 })
-
             })
     }
     render() {
@@ -37,8 +36,8 @@ class Profile extends React.Component {
                     <div className="col s12 ">
                         <div className="">
                             <div className="card-image">
-                                <img src={this.state.user.image} alt="" className="circle responsive-img " />
-                                <h5 className="card-title">{this.state.user.name}</h5>
+                                <img src={this.state.user.avatarUrl} alt="" className="circle responsive-img " />
+                                <h5 className="card-title">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5>
                             </div>
                             <p>Edit profile</p>
                             <div className="card-content">
@@ -57,5 +56,3 @@ class Profile extends React.Component {
 }
 
 export default Profile
-
-//_embed[]=posts&_embed[]=comments

@@ -6,7 +6,7 @@ const Header = (props) => {
         <header>
             <nav className='teal darken-2'>
                 <div className="nav-wrapper container">
-                    <a href="/" className="brand-logo">BitBook</a>
+                    <Link to='/' className="brand-logo">BitBook</Link>
                     <ul id="nav-mobile" className="right">
                         <li><a href="sass.html">Feed</a></li>
                         <li><a href="badges.html">People</a></li>

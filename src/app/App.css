@@ -21,3 +21,9 @@ body {
 footer {
   padding: 20px;
 }
+
+.comment-image {
+  margin-top: 50px;
+  width: 150px !important;
+  border-radius: 50% !important;
+}
