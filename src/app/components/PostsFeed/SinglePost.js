@@ -3,11 +3,13 @@ import { fetchSinglePost } from '../../../services/Posts';
 import { fetchUserById } from '../../../services/Users';
 
 import './SinglePost.css'
+import { User } from '../../../models/User';
 
 class SinglePost extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loggedUser: null,
             post: null,
             comments: [],
             users: [],
@@ -24,6 +26,7 @@ class SinglePost extends Component {
                 Promise.all(usersId)
                     .then((users) => {
                         this.setState({
+                            loggedUser: new User(999, 'http://via.placeholder.com/150', { first: 'chkemi', last: 'chkemi' }, 'bla', 0, 0),
                             post,
                             users,
                             comments: post.comments
