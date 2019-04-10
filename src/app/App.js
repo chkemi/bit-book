@@ -18,11 +18,11 @@ class App extends Component {
         <Header />
         <main className='container'>
           <Switch>
-            <Route path='/register' component={RegisterPage} />
             <Route path='/people' component={PeoplePage} />
             <Route path='/profile/:id' component={MyProfile} />
+            <Route path='/feeds' component={PostsFeed} />
             <Route path='/feeds/:id' component={SinglePost} />
-            <Route path='/' component={PostsFeed} />
+            <Route path='/' component={RegisterPage} />
           </Switch>
         </main>
         <Footer />
