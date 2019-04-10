@@ -10,7 +10,7 @@ class User {
         this.biography = biography;
         this.comments = comments;
         this.posts = posts;
-        this.createdAt = date.toLocaleTimeString();
+        this.createdAt = date.toLocaleDateString();
     }
 }
 
