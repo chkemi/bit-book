@@ -54,12 +54,12 @@ class Profile extends React.Component {
                 <div className="row center profile">
                     <div className="col s12 ">
                         <div className="">
-                            {this.state.isShowing ? <Modal className="modal" show={this.state.isShowing} close={this.closeModal} image={this.state.user.avatarUrl} user={this.state.user} /> : null}
+                            {this.state.isShowing ? <Modal className="modal" show={this.state.isShowing} close={this.closeModal} user={this.state.user} /> : null}
                             <div className="card-image">
                                 <img src={this.state.user.avatarUrl} alt="" className="circle responsive-img " />
                                 <h5 className="card-title">{`${this.state.user.firstName} ${this.state.user.lastName}`}</h5>
                             </div>
-                            <button data-target="modal1" class="btn modal-trigger" onClick={this.openModal}>Edit Profile</button>
+                            <button data-target="modal1" className="btn modal-trigger" onClick={this.openModal}>Edit Profile</button>
 
                             <div className="card-content">
                                 <p>{this.state.user.biography}</p>
