@@ -7,13 +7,16 @@ class PostsFeed extends Component {
         super(props);
         this.state = {
             posts: [],
-            filteredPosts: [],
+            allPosts: true,
+            onlyImages: false,
+            onlyVideos: false,
+            onlyText: false,
         }
 
         this.filterText = this.filterText.bind(this);
         this.filterVideos = this.filterVideos.bind(this);
         this.filterImages = this.filterImages.bind(this);
-        this.noFilter = this.noFilter.bind(this);
+        this.allPosts = this.allPosts.bind(this);
     }
 
     componentDidMount() {
@@ -30,95 +33,157 @@ class PostsFeed extends Component {
             return <h1 className='center'>Loading...</h1>
         }
 
-        return this.state.posts.map((post) => {
-            if (post.isText()) {
-                return (
-                    <div key={post.id} className="row">
-                        <div className="col s12">
-                            <div className="card teal lighten-4">
-                                <div className="card-content brown-text text-darken-4">
-                                    <p className='center'>{post.text}</p>
-                                </div>
-                                <div className="card-action">
-                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            } else if (post.isPicture()) {
-                return (
-                    <div key={post.id} className="row">
-                        <div className="col s12">
-                            <div className="card teal lighten-4">
-                                <div className="card-image">
-                                    <img src={post.imageUrl} alt='Something' />
-                                </div>
-                                <div className="card-action">
-                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+        if (this.state.allPosts) {
+            return this.state.posts.map((post) => {
+                if (post.isText()) {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div className="card-content brown-text text-darken-4">
+                                        <p className='center'>{post.text}</p>
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            } else {
-                return (
-                    <div key={post.id} className="row">
-                        <div className="col s12">
-                            <div className="card teal lighten-4">
-                                <div key={post.id}>
-                                    <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                                </div>
-                                <div className="card-action">
-                                    <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                    <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                    )
+                } else if (post.isPicture()) {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div className="card-image">
+                                        <img src={post.imageUrl} alt='Something' />
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            }
-        })
+                    )
+                } else {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div key={post.id}>
+                                        <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            })
+        } else if (this.state.onlyImages) {
+            return this.state.posts.map((post) => {
+                if (post.isPicture()) {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div className="card-image">
+                                        <img src={post.imageUrl} alt='Something' />
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                return null;
+            })
+        } else if (this.state.onlyText) {
+            return this.state.posts.map((post) => {
+                if (post.isText()) {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div className="card-content brown-text text-darken-4">
+                                        <p className='center'>{post.text}</p>
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                return null;
+            })
+        } else {
+            return this.state.posts.map((post) => {
+                if (post.isVideo()) {
+                    return (
+                        <div key={post.id} className="row">
+                            <div className="col s12">
+                                <div className="card teal lighten-4">
+                                    <div key={post.id}>
+                                        <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                    </div>
+                                    <div className="card-action">
+                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
+                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+                return null
+            })
+        }
     }
 
     filterText(e) {
-        const filteredPosts = this.state.posts.filter((post) => {
-            return post.isText();
-        })
-
         this.setState({
-            filteredPosts: this.state.posts,
-            posts: filteredPosts
+            allPosts: false,
+            onlyImages: false,
+            onlyVideos: false,
+            onlyText: true,
         })
     }
 
     filterVideos(e) {
-        const filteredPosts = this.state.posts.filter((post) => {
-            return post.isVideo();
-        })
-
         this.setState({
-            filteredPosts: this.state.posts,
-            posts: filteredPosts
+            allPosts: false,
+            onlyImages: false,
+            onlyVideos: true,
+            onlyText: false,
         })
     }
 
     filterImages(e) {
-        const filteredPosts = this.state.posts.filter((post) => {
-            return post.isPicture();
-        })
-
         this.setState({
-            filteredPosts: this.state.posts,
-            posts: filteredPosts
+            allPosts: false,
+            onlyImages: true,
+            onlyVideos: false,
+            onlyText: false,
         })
     }
 
-    noFilter(e) {
+    allPosts(e) {
         this.setState({
-            posts: this.state.filteredPosts
+            allPosts: true,
+            onlyImages: false,
+            onlyVideos: false,
+            onlyText: false,
         })
     }
 
@@ -126,7 +191,7 @@ class PostsFeed extends Component {
         return (
             <>
                 <div className='row'>
-                    <button className="waves-effect waves-light btn col s3" onClick={this.noFilter}>All Posts</button>
+                    <button className="waves-effect waves-light btn col s3" onClick={this.allPosts}>All Posts</button>
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterImages}>Images</button>
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterVideos}>Videos</button>
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterText}>Text</button>
