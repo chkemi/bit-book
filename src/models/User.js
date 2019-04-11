@@ -1,5 +1,5 @@
 class User {
-    constructor(id, avatarUrl, name, biography, comments, posts, createdAt) {
+    constructor(id, avatarUrl, name, about, comments, posts, createdAt) {
 
         const date = new Date(createdAt)
 
@@ -7,7 +7,7 @@ class User {
         this.avatarUrl = avatarUrl;
         this.firstName = name.first;
         this.lastName = name.last;
-        this.biography = biography;
+        this.biography = about;
         this.comments = comments;
         this.posts = posts;
         this.createdAt = date.toLocaleDateString();
