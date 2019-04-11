@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
-import { fetchUserById } from '../../../services/Users';
+import { fetchUserById, getDecodedId } from '../../../services/Users';
 import { User } from '../../../models/User';
-import { postComment } from '../../../services/Comments';
+import { postComment, fetchCommentsForSinglePost } from '../../../services/Comments';
 
 import './SinglePost.css'
 
@@ -10,7 +10,6 @@ class SinglePost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedUser: null,
             post: null,
             comments: [],
             users: [],
@@ -31,7 +30,6 @@ class SinglePost extends Component {
                 Promise.all(usersId)
                     .then((users) => {
                         this.setState({
-                            loggedUser: new User(999, 'http://via.placeholder.com/150', { first: 'chkemi', last: 'chkemi' }, 'bla', 0, 0),
                             post,
                             users,
                             comments: post.comments
@@ -50,20 +48,24 @@ class SinglePost extends Component {
         e.preventDefault();
 
         const body = {
+            sid: Math.random() * 1000000,
+            userId: getDecodedId(),
             postId: this.props.match.params.id,
-            body: this.state.commentInputValue
+            body: this.state.commentInputValue,
+            isPublic: true
         }
 
         postComment(body)
             .then((comment) => {
-                if (comment) {
-                    console.log(comment);
-                } else {
-                    console.log(comment);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
+                console.log(comment);
+
+                fetchCommentsForSinglePost(this.props.match.params.id)
+                    .then((comments) => {
+                        this.setState({
+                            comments
+                        })
+                    })
+
             })
     }
 
@@ -143,6 +145,7 @@ class SinglePost extends Component {
     }
 
     render() {
+        console.log(this.state.comments);
         return (
             <>
                 {this.showPost()}

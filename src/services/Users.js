@@ -68,4 +68,6 @@ export {
     fetchUserById,
     fetchUsers,
     fetchLoggedInUser,
+    getDecodedId,
+    getToken,
 }

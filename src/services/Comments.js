@@ -1,4 +1,5 @@
 import { Comment } from "../models/Comment";
+import { getToken } from "./Users";
 
 const fetchCommentsForSinglePost = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}/comments`, {
@@ -21,14 +22,16 @@ const postComment = (data) => {
         headers: {
             'x-api-key': 'B1tD3V',
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
         },
         body: JSON.stringify(data)
     })
         .then(res => {
+            console.log(res);
             if (!res.ok) {
                 throw Error(res.statusText);
             }
-            return res;
+            return res.json();
         })
         .then(comment => new Comment(comment.sid, comment.postId, comment.userId, comment.body))
 }
