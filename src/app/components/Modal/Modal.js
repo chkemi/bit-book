@@ -1,17 +1,20 @@
 import React from 'react';
 
 import './Modal.css';
-// import updateProfile from '../../../services/UpdateProfile';
+import updateProfile from '../../../services/UpdateProfile';
+import { getDecodedId } from '../../../services/Users';
 
 class Modal extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            name: props.user.firstName,
+            name: `${props.user.firstName} ${props.user.lastName}`,
             bio: props.user.biography,
             image: props.user.avatarUrl
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleInputChange = (e) => {
@@ -51,35 +54,30 @@ class Modal extends React.Component {
         }
         return true
     }
-    // componentDidMount() {
-    //     const body = {
-    //         nameFirst: this.state.name.first,
-    //         nameLast: this.state.name.last,
-    //         avatarUrl: this.state.image,
-    //         biography: this.state.about.bio
-    //     }
 
-    //     updateProfile(this.props.match.id, body)
-    //         .then((result) => {
-    //             console.log(result);
-    //         }).catch((err) => {
+    handleSubmit(e) {
+        e.preventDefault();
 
-    //         });
+        const body = {
+            id: getDecodedId(),
+            name: this.state.name,
+            avatarUrl: this.state.image,
+            biography: this.state.bio
+        }
 
+        updateProfile(getDecodedId(), body)
+            .then((result) => {
+                console.log(result);
 
-    // shows loading
-    // updateProfie(userid, body)
-    //     .then((params) => {
-    //         //close modal
-    //         // reload profile
-
-    //     })
-    //     console.log(body);
-
-    // }
+                this.setState({
+                    name: result.name,
+                    bio: result.bio,
+                    image: result.image
+                })
+            })
+    }
 
     render() {
-
         const validationResultName = this.isValidName(this.state.name);
         const validationResultBio = this.isValidBio(this.state.bio)
         const validationResultImg = this.isValidImg(this.state.image)
@@ -101,8 +99,6 @@ class Modal extends React.Component {
 
                         </div>
                         <div className="input-field col s5 " id="full_name"><p className="left">Full Name:</p>
-
-
                             <input
                                 name="name"
                                 placeholder="Name"
@@ -141,10 +137,7 @@ class Modal extends React.Component {
                             />
                         </label>
                         {validationResultBio.error && <p id="error" style={{ color: 'red', width: '50px' }}>{validationResultBio.error}</p>}
-
-
                     </div>
-
                     <div className="row">
                         <button className="btn waves-effect waves-light btn-mrg-1" onClick={this.props.close}>CLOSE</button>
                         <button className="btn waves-effect waves-light btn-mrg-2" type="submit" disabled={validationResultBio.error || validationResultImg.error || validationResultName.error} name="action">UPDATE</button>
