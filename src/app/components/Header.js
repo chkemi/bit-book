@@ -6,11 +6,11 @@ const Header = (props) => {
         <header>
             <nav className='teal darken-2'>
                 <div className="nav-wrapper container">
-                    <Link to='/' className="brand-logo">BitBook</Link>
+                    <Link to='/feeds' className="brand-logo">BitBook</Link>
                     <ul id="nav-mobile" className="right">
-                        <li><Link to='/'>Feed</Link></li>
+                        <li><Link to='/feeds'>Feed</Link></li>
                         <li><Link to='/people'>People</Link></li>
-                        <li><Link to='/profile/2'>Profile</Link></li>
+                        <li><Link to='/profile'>Profile</Link></li>
                     </ul>
                 </div>
             </nav>
