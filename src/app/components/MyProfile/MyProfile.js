@@ -3,9 +3,6 @@ import { fetchUserById } from '../../../services/Users'
 import './MyProfile.css'
 import Modal from '../Modal/Modal'
 
-
-
-
 class Profile extends React.Component {
     constructor(props) {
         super(props)
@@ -18,8 +15,9 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        fetchUserById(2)
+        fetchUserById(this.props.match.params.id)
             .then(user => {
+                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,
@@ -39,8 +37,6 @@ class Profile extends React.Component {
             isShowing: false
         });
     }
-
-
 
     render() {
 
