@@ -20,7 +20,6 @@ class Profile extends React.Component {
     componentDidMount() {
         fetchUserById(2)
             .then(user => {
-                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,

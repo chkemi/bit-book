@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './Modal.css';
+import updateProfile from '../../../services/UpdateProfile';
 
 class Modal extends React.Component {
     constructor(props) {
@@ -45,27 +46,46 @@ class Modal extends React.Component {
     }
 
     isValidImg = (value) => {
+        console.log(value);
         if (!value.length) {
             return { error: "Error" }
         }
-        // if (!value.endsWith("jpg")) {
-        //     return { error: "Error" }
-        // }
-        // if (!value.endsWith("jpeg")) {
-        //     return { error: "Error" }
-        // }
-        // if (!value.endsWith("png")) {
-        //     return { error: "Error" }
-        // }
 
-        // if (!value.endsWith("svg")) {
-        //     return { error: "Error" }
-        // }
-        // if (!value.startsWith("http")) {
-        //     return { error: "Error" }
-        // }
+        if (value.endsWith('jpg') === false) {
+            return { error: "Error" }
+        }
+
+        if (value.startsWith("http") === false) {
+            return { error: "Error" }
+        }
         return true
     }
+    // componentDidMount() {
+    //     const body = {
+    //         nameFirst: this.state.name.first,
+    //         nameLast: this.state.name.last,
+    //         avatarUrl: this.state.image,
+    //         biography: this.state.about.bio
+    //     }
+
+    //     updateProfile(this.props.match.id, body)
+    //         .then((result) => {
+    //             console.log(result);
+    //         }).catch((err) => {
+
+    //         });
+
+
+    // shows loading
+    // updateProfie(userid, body)
+    //     .then((params) => {
+    //         //close modal
+    //         // reload profile
+
+    //     })
+    //     console.log(body);
+
+    // }
 
     render() {
 
@@ -114,8 +134,8 @@ class Modal extends React.Component {
                                 className="validate"
                                 defaultValue={this.state.image}
                             />
-                            {validationResultImg.error && <p style={{ color: 'red', width: '50px' }}>{validationResultImg.error}</p>}
                         </label>
+                        {validationResultImg.error && <p id="error" style={{ color: 'red', width: '50px' }}>{validationResultImg.error}</p>}
                     </div>
                     <div className="row"><p>Biography:</p>
 
@@ -128,8 +148,8 @@ class Modal extends React.Component {
                                 type="text" className="validate"
                                 defaultValue={this.state.bio}
                             />
-                            {validationResultBio.error && <p style={{ color: 'red', width: '50px' }}>{validationResultBio.error}</p>}
                         </label>
+                        {validationResultBio.error && <p id="error" style={{ color: 'red', width: '50px' }}>{validationResultBio.error}</p>}
 
 
                     </div>
