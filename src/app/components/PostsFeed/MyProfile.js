@@ -2,7 +2,6 @@ import React from 'react'
 import { fetchUserById } from '../../../services/Users'
 import './MyProfile.css'
 
-
 class Profile extends React.Component {
     constructor(props) {
         super(props)
@@ -16,6 +15,7 @@ class Profile extends React.Component {
     componentDidMount() {
         fetchUserById(this.props.match.params.id)
             .then(user => {
+                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,

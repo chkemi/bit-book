@@ -49,10 +49,6 @@ class RegisterPage extends Component {
             })
 
         this.instance.select('login');
-
-        this.setState({
-            register: false
-        })
     }
 
     sendLoginReq(e) {
@@ -66,12 +62,11 @@ class RegisterPage extends Component {
         fetchLogin(data)
             .then((data) => {
                 if (data.accessToken) {
-                    localStorage.setItem('user', data.accessToken)
-                    this.props.history.push('/feeds')
+                    localStorage.setItem('user', data.accessToken);
+                    this.props.logIn();
                 }
                 console.log(data);
             })
-
     }
 
     render() {

@@ -12,7 +12,33 @@ import PeoplePage from './components/PeoplePage';
 import RegisterPage from './components/Register';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      logged: localStorage.getItem('user') ? true : false,
+    }
+
+    this.logIn = this.logIn.bind(this)
+  }
+
+  logIn() {
+    this.setState((prevState) => {
+      return {
+        logged: !prevState.logged
+      }
+
+    })
+  }
+
   render() {
+    if (!this.state.logged) {
+      return (
+        <Route path='/' render={(props) => {
+          return <RegisterPage logIn={this.logIn} />
+        }} />
+      )
+    }
+
     return (
       <>
         <Header />
@@ -20,9 +46,10 @@ class App extends Component {
           <Switch>
             <Route path='/people' component={PeoplePage} />
             <Route path='/profile/:id' component={MyProfile} />
-            <Route path='/feeds' component={PostsFeed} />
+            <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
-            <Route path='/' component={RegisterPage} />
+            <Route path='/feeds' component={PostsFeed} />
+            <Route path='/' component={PostsFeed} />
           </Switch>
         </main>
         <Footer />
