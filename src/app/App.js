@@ -7,9 +7,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PostsFeed from './components/PostsFeed/PostsFeed';
 import SinglePost from './components/PostsFeed/SinglePost';
-import MyProfile from './components/MyProfile/MyProfile'
+import MyProfile from './components/Profile/MyProfile'
 import PeoplePage from './components/PeoplePage';
 import RegisterPage from './components/Register';
+import UserProfile from './components/Profile/UserProfile';
 
 class App extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class App extends Component {
         <main className='container'>
           <Switch>
             <Route path='/people' component={PeoplePage} />
-            <Route path='/profile/:id' component={MyProfile} />
+            <Route path='/profile/:id' component={UserProfile} />
             <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
             <Route path='/feeds' component={PostsFeed} />

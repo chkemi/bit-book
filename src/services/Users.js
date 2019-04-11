@@ -1,10 +1,6 @@
 import { User } from '../models/User'
 import jwtDecode from "jwt-decode";
 
-const loggedIn = () => {
-    return localStorage.getItem('user') ? true : false;
-}
-
 const getDecodedId = () => {
     const decoded = jwtDecode(localStorage.getItem('user'))
     return decoded.id;
@@ -15,7 +11,6 @@ const getToken = () => {
 }
 
 const fetchUserById = (userId) => {
-
     return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}?_embed[]=posts&_embed[]=comments`, {
         method: 'GET',
         headers: {

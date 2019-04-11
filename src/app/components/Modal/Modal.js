@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Modal.css';
-import updateProfile from '../../../services/UpdateProfile';
+// import updateProfile from '../../../services/UpdateProfile';
 
 class Modal extends React.Component {
     constructor(props) {
@@ -46,16 +46,7 @@ class Modal extends React.Component {
     }
 
     isValidImg = (value) => {
-        console.log(value);
-        if (!value.length) {
-            return { error: "Error" }
-        }
-
-        if (value.endsWith('jpg') === false) {
-            return { error: "Error" }
-        }
-
-        if (value.startsWith("http") === false) {
+        if (!value.length || value.startsWith("http") === false) {
             return { error: "Error" }
         }
         return true
