@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchUserById } from '../../../services/Users'
+import { fetchUserById, fetchLoggedInUser } from '../../../services/Users'
 import './MyProfile.css'
 import Modal from '../Modal/Modal'
 
@@ -15,15 +15,28 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        fetchUserById(this.props.match.params.id)
+        this.fetchUserData();
+    }
+
+    fetchUserData = () => {
+        const userPromise = this.props.match.params.id
+            ? fetchUserById(this.props.match.params.id)
+            : fetchLoggedInUser();
+
+        userPromise
             .then(user => {
-                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,
                     posts: user.posts
                 })
             })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.fetchUserData();
+        }
     }
 
     openModal = () => {
@@ -39,7 +52,7 @@ class Profile extends React.Component {
     }
 
     render() {
-
+        console.log('bla');
         if (!this.state.user) {
             return null;
         }

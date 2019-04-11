@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = (props) => {
-    console.log('sdfsdfsdf');
     return (
         <header>
             <nav className='teal darken-2'>
