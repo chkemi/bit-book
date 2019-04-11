@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import PostsFeed from './components/PostsFeed/PostsFeed';
 import SinglePost from './components/PostsFeed/SinglePost';
-import MyProfile from './components/PostsFeed/MyProfile'
+import MyProfile from './components/MyProfile/MyProfile'
 import PeoplePage from './components/PeoplePage';
 import RegisterPage from './components/Register';
 
