@@ -1,4 +1,5 @@
 import { TextPost, ImagePost, VideoPost } from "../models/Post";
+import { getToken } from "./Users";
 
 const fetchPosts = () => {
     return fetch('https://book-api.hypetech.xyz/v1/posts?_embed=comments', {
@@ -7,10 +8,8 @@ const fetchPosts = () => {
             'x-api-key': 'B1tD3V',
         }
     })
-        .then((res) => {
-            return res.json();
-        })
-        .then((posts) => {
+        .then(res => res.json())
+        .then(posts => {
             return posts.map((post) => {
                 if (post.type === 'text') {
                     return new TextPost(post.id, post.userId, post.type, post.comments, post.text)
@@ -44,8 +43,22 @@ const fetchSinglePost = (id) => {
         })
 }
 
+const fetchCreatePost = (dataObj) => {
+    return fetch('https://book-api.hypetech.xyz/v1/posts', {
+        method: 'POST',
+        headers: {
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify(dataObj)
+    })
+        .then(res => res.json())
+        .then(post => post)
+}
 
 export {
     fetchPosts,
     fetchSinglePost,
+    fetchCreatePost,
 }

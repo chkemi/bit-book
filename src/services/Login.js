@@ -8,9 +8,7 @@ const fetchLogin = (dataObj) => {
         body: JSON.stringify(dataObj)
     })
         .then(res => res.json())
-        .then((token) => {
-            return token;
-        })
+        .then((token) => token)
 }
 
 export {
