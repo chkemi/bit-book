@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
-import { fetchUserById, getDecodedId } from '../../../services/Users';
-import { User } from '../../../models/User';
-import { postComment, fetchCommentsForSinglePost } from '../../../services/Comments';
+import { getDecodedId } from '../../../services/Users';
+import { postComment, fetchCommentsByPostId } from '../../../services/Comments';
 
 import './SinglePost.css'
 
@@ -12,7 +11,6 @@ class SinglePost extends Component {
         this.state = {
             post: null,
             comments: [],
-            users: [],
             commentInputValue: '',
         }
 
@@ -23,16 +21,13 @@ class SinglePost extends Component {
     componentDidMount() {
         fetchSinglePost(this.props.match.params.id)
             .then((post) => {
-                const usersId = post.comments.map((comment) => {
-                    return fetchUserById(comment.userId)
-                })
 
-                Promise.all(usersId)
-                    .then((users) => {
+                fetchCommentsByPostId(this.props.match.params.id)
+                    .then((comments) => {
+                        const reversedComments = comments.reverse()
                         this.setState({
                             post,
-                            users,
-                            comments: post.comments
+                            comments: reversedComments
                         })
                     })
             })
@@ -59,13 +54,14 @@ class SinglePost extends Component {
             .then((comment) => {
                 console.log(comment);
 
-                fetchCommentsForSinglePost(this.props.match.params.id)
+                fetchCommentsByPostId(this.props.match.params.id)
                     .then((comments) => {
+                        const reversedComments = comments.reverse()
                         this.setState({
-                            comments
+                            comments: reversedComments,
+                            commentInputValue: ''
                         })
                     })
-
             })
     }
 
@@ -126,13 +122,13 @@ class SinglePost extends Component {
     }
 
     showComments() {
-        return this.state.comments.map((comment, ind) => {
+        return this.state.comments.map((comment) => {
             return (
                 <div key={comment.id} className="row">
                     <div className="col s12">
                         <div className="card">
                             <div className="card-image">
-                                <img className='comment-image' src={this.state.users[ind].avatarUrl} alt='Something' />
+                                <img className='comment-image' src={comment.userAvatarUrl ? comment.userAvatarUrl : 'http://via.placeholder.com/125'} alt='Something' />
                             </div>
                             <div className="card-content">
                                 <p>{comment.body}</p>
@@ -145,7 +141,6 @@ class SinglePost extends Component {
     }
 
     render() {
-        console.log(this.state.comments);
         return (
             <>
                 {this.showPost()}

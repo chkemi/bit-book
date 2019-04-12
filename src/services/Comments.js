@@ -1,19 +1,16 @@
 import { Comment } from "../models/Comment";
 import { getToken } from "./Users";
 
-const fetchCommentsForSinglePost = (id) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}/comments`, {
+const fetchCommentsByPostId = (id) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/comments?postId=${id}&_expand=user`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V'
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
         }
     })
         .then(res => res.json())
-        .then((comments) => {
-            return comments.map((comment) => {
-                return new Comment(comment.id, comment.postId, comment.userId, comment.body)
-            })
-        })
+        .then(comments => comments.map(comment => new Comment(comment.id, comment.postId, comment.userId, comment.body, comment.user.avatarUrl)))
 }
 
 const postComment = (data) => {
@@ -27,7 +24,6 @@ const postComment = (data) => {
         body: JSON.stringify(data)
     })
         .then(res => {
-            console.log(res);
             if (!res.ok) {
                 throw Error(res.statusText);
             }
@@ -37,6 +33,6 @@ const postComment = (data) => {
 }
 
 export {
-    fetchCommentsForSinglePost,
+    fetchCommentsByPostId,
     postComment,
 }
