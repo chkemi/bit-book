@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchPosts, fetchCreatePost } from '../../../services/Posts';
 import FloatingButton from '../FloatingButton';
+import CommentsCount from './CommentsCount';
 
 class PostsFeed extends Component {
     constructor(props) {
@@ -37,8 +38,9 @@ class PostsFeed extends Component {
     componentDidMount() {
         fetchPosts()
             .then((posts) => {
+                const reversedPosts = posts.reverse()
                 this.setState({
-                    posts
+                    posts: reversedPosts
                 })
             })
     }
@@ -49,7 +51,8 @@ class PostsFeed extends Component {
         const body = {
             sid: Math.random() * 1000000,
             type: 'text',
-            text: this.state.postContent
+            text: this.state.postContent,
+            isPublic: true
         }
 
         fetchCreatePost(body)
@@ -57,8 +60,9 @@ class PostsFeed extends Component {
                 console.log(post);
                 fetchPosts()
                     .then((posts) => {
+                        const reversedPosts = posts.reverse()
                         this.setState({
-                            posts
+                            posts: reversedPosts
                         })
                     })
             })
@@ -70,7 +74,8 @@ class PostsFeed extends Component {
         const body = {
             sid: Math.random() * 1000000,
             type: 'image',
-            imageUrl: this.state.imageUrl
+            imageUrl: this.state.imageUrl,
+            isPublic: true
         }
 
         fetchCreatePost(body)
@@ -78,8 +83,9 @@ class PostsFeed extends Component {
                 console.log(post);
                 fetchPosts()
                     .then((posts) => {
+                        const reversedPosts = posts.reverse()
                         this.setState({
-                            posts
+                            posts: reversedPosts
                         })
                     })
             })
@@ -91,7 +97,8 @@ class PostsFeed extends Component {
         const body = {
             sid: Math.random() * 1000000,
             type: 'video',
-            videoUrl: this.state.videoUrl
+            videoUrl: this.state.videoUrl,
+            isPublic: true,
         }
 
         fetchCreatePost(body)
@@ -99,8 +106,9 @@ class PostsFeed extends Component {
                 console.log(post);
                 fetchPosts()
                     .then((posts) => {
+                        const reversedPosts = posts.reverse()
                         this.setState({
-                            posts
+                            posts: reversedPosts
                         })
                     })
             })
@@ -123,7 +131,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +147,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +163,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>

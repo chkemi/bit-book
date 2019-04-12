@@ -8,7 +8,7 @@ const Header = (props) => {
                 <div className="nav-wrapper container">
                     <Link to='/feeds' className="brand-logo">BitBook</Link>
                     <ul id="nav-mobile" className="right">
-                        <li><Link to='/feeds'>Feed</Link></li>
+                        <li><Link to='/'>Feed</Link></li>
                         <li><Link to='/people'>People</Link></li>
                         <li><Link to='/profile'>Profile</Link></li>
                     </ul>
