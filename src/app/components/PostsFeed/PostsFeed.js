@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPosts } from '../../../services/Posts';
+import { fetchPosts, fetchCreatePost } from '../../../services/Posts';
+import FloatingButton from '../FloatingButton';
 
 class PostsFeed extends Component {
     constructor(props) {
@@ -11,12 +12,26 @@ class PostsFeed extends Component {
             onlyImages: false,
             onlyVideos: false,
             onlyText: false,
+            postContent: '',
+            imageUrl: '',
+            videoUrl: '',
         }
+
+        this.changeInputValues = this.changeInputValues.bind(this);
+        this.createTextPost = this.createTextPost.bind(this);
+        this.createImagePost = this.createImagePost.bind(this);
+        this.createVideoPost = this.createVideoPost.bind(this);
 
         this.filterText = this.filterText.bind(this);
         this.filterVideos = this.filterVideos.bind(this);
         this.filterImages = this.filterImages.bind(this);
         this.allPosts = this.allPosts.bind(this);
+    }
+
+    changeInputValues(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     componentDidMount() {
@@ -25,6 +40,69 @@ class PostsFeed extends Component {
                 this.setState({
                     posts
                 })
+            })
+    }
+
+    createTextPost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'text',
+            text: this.state.postContent
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        this.setState({
+                            posts
+                        })
+                    })
+            })
+    }
+
+    createImagePost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'image',
+            imageUrl: this.state.imageUrl
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        this.setState({
+                            posts
+                        })
+                    })
+            })
+    }
+
+    createVideoPost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'video',
+            videoUrl: this.state.videoUrl
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        this.setState({
+                            posts
+                        })
+                    })
             })
     }
 
@@ -197,6 +275,7 @@ class PostsFeed extends Component {
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterText}>Text</button>
                 </div>
                 {this.showPosts()}
+                <FloatingButton changeInputValues={this.changeInputValues} postContent={this.state.postContent} imageUrl={this.state.imageUrl} videoUrl={this.state.videoUrl} createTextPost={this.createTextPost} createImagePost={this.createImagePost} createVideoPost={this.createVideoPost} />
             </>
         );
     }
