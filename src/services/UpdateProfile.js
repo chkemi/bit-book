@@ -10,13 +10,13 @@ const updateProfile = (userId, body) => {
         },
         body: JSON.stringify(body)
     }))
-        .then((result) => {
-            console.log(result);
-            return result.json()
-        })
         .then((res) => {
             console.log(res);
-            return res
+            return res.json()
+        })
+        .then((result) => {
+            console.log(result);
+            return result
         });
 }
 
