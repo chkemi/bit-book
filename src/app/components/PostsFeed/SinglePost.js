@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
-import { fetchUserById } from '../../../services/Users';
+import { getDecodedId } from '../../../services/Users';
+import { postComment, fetchCommentsByPostId } from '../../../services/Comments';
 
 import './SinglePost.css'
 
@@ -10,27 +11,58 @@ class SinglePost extends Component {
         this.state = {
             post: null,
             comments: [],
-            users: [],
+            commentInputValue: '',
         }
+
+        this.changeValue = this.changeValue.bind(this);
+        this.submitComment = this.submitComment.bind(this);
     }
 
     componentDidMount() {
         fetchSinglePost(this.props.match.params.id)
             .then((post) => {
-                const usersId = post.comments.map((comment) => {
-                    return fetchUserById(comment.userId)
-                })
 
-                Promise.all(usersId)
-                    .then((users) => {
+                fetchCommentsByPostId(this.props.match.params.id)
+                    .then((comments) => {
+                        const reversedComments = comments.reverse()
                         this.setState({
                             post,
-                            users,
-                            comments: post.comments
+                            comments: reversedComments
                         })
                     })
             })
+    }
 
+    changeValue(e) {
+        this.setState({
+            commentInputValue: e.target.value,
+        })
+    }
+
+    submitComment(e) {
+        e.preventDefault();
+
+        const body = {
+            sid: Math.random() * 1000000,
+            userId: getDecodedId(),
+            postId: this.props.match.params.id,
+            body: this.state.commentInputValue,
+            isPublic: true
+        }
+
+        postComment(body)
+            .then((comment) => {
+                console.log(comment);
+
+                fetchCommentsByPostId(this.props.match.params.id)
+                    .then((comments) => {
+                        const reversedComments = comments.reverse()
+                        this.setState({
+                            comments: reversedComments,
+                            commentInputValue: ''
+                        })
+                    })
+            })
     }
 
     showPost() {
@@ -48,7 +80,7 @@ class SinglePost extends Component {
                             </div>
                             <div className="card-action">
                                 <a className='brown-text text-darken-4' href="/">Text post</a>
-                                <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                <a className='right brown-text text-darken-4' href="/">{this.state.comments.length} Comments</a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +96,7 @@ class SinglePost extends Component {
                             </div>
                             <div className="card-action">
                                 <a className='brown-text text-darken-4' href="/">Image post</a>
-                                <a className='right brown-text text-darken-4' href="/">15 Comments</a>
+                                <a className='right brown-text text-darken-4' href="/">{this.state.comments.length} Comments</a>
                             </div>
                         </div>
                     </div>
@@ -90,13 +122,13 @@ class SinglePost extends Component {
     }
 
     showComments() {
-        return this.state.comments.map((comment, ind) => {
+        return this.state.comments.map((comment) => {
             return (
                 <div key={comment.id} className="row">
                     <div className="col s12">
                         <div className="card">
                             <div className="card-image">
-                                <img className='comment-image' src={this.state.users[ind].avatarUrl} alt='Something' />
+                                <img className='comment-image' src={comment.userAvatarUrl ? comment.userAvatarUrl : 'http://via.placeholder.com/125'} alt='Something' />
                             </div>
                             <div className="card-content">
                                 <p>{comment.body}</p>
@@ -113,8 +145,8 @@ class SinglePost extends Component {
             <>
                 {this.showPost()}
                 <form method='POST' action='/'>
-                    <input type='text' placeholder='Add your comment' />
-                    <input type='submit' className='teal white-text' />
+                    <input type='text' placeholder='Add your comment' value={this.state.commentInputValue} onChange={this.changeValue} />
+                    <input type='submit' className='teal white-text' onClick={this.submitComment} disabled={this.state.commentInputValue ? false : true} />
                 </form>
                 {this.showComments()}
             </>

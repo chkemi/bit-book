@@ -25,7 +25,7 @@ const fetchPosts = () => {
 }
 
 const fetchSinglePost = (id) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}?_embed=comments`, {
+    return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V'
@@ -43,6 +43,7 @@ const fetchSinglePost = (id) => {
             return null
         })
 }
+
 
 export {
     fetchPosts,
