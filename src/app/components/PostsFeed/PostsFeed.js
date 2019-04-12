@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPosts } from '../../../services/Posts';
+import { fetchPosts, fetchCreatePost } from '../../../services/Posts';
+import FloatingButton from '../FloatingButton';
+import CommentsCount from './CommentsCount';
 
 class PostsFeed extends Component {
     constructor(props) {
@@ -11,7 +13,15 @@ class PostsFeed extends Component {
             onlyImages: false,
             onlyVideos: false,
             onlyText: false,
+            postContent: '',
+            imageUrl: '',
+            videoUrl: '',
         }
+
+        this.changeInputValues = this.changeInputValues.bind(this);
+        this.createTextPost = this.createTextPost.bind(this);
+        this.createImagePost = this.createImagePost.bind(this);
+        this.createVideoPost = this.createVideoPost.bind(this);
 
         this.filterText = this.filterText.bind(this);
         this.filterVideos = this.filterVideos.bind(this);
@@ -19,12 +29,88 @@ class PostsFeed extends Component {
         this.allPosts = this.allPosts.bind(this);
     }
 
+    changeInputValues(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     componentDidMount() {
         fetchPosts()
             .then((posts) => {
+                const reversedPosts = posts.reverse()
                 this.setState({
-                    posts
+                    posts: reversedPosts
                 })
+            })
+    }
+
+    createTextPost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'text',
+            text: this.state.postContent,
+            isPublic: true
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        const reversedPosts = posts.reverse()
+                        this.setState({
+                            posts: reversedPosts
+                        })
+                    })
+            })
+    }
+
+    createImagePost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'image',
+            imageUrl: this.state.imageUrl,
+            isPublic: true
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        const reversedPosts = posts.reverse()
+                        this.setState({
+                            posts: reversedPosts
+                        })
+                    })
+            })
+    }
+
+    createVideoPost(e) {
+        e.preventDefault()
+
+        const body = {
+            sid: Math.random() * 1000000,
+            type: 'video',
+            videoUrl: this.state.videoUrl,
+            isPublic: true,
+        }
+
+        fetchCreatePost(body)
+            .then((post) => {
+                console.log(post);
+                fetchPosts()
+                    .then((posts) => {
+                        const reversedPosts = posts.reverse()
+                        this.setState({
+                            posts: reversedPosts
+                        })
+                    })
             })
     }
 
@@ -45,7 +131,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +147,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +163,7 @@ class PostsFeed extends Component {
                                     </div>
                                     <div className="card-action">
                                         <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
+                                        <CommentsCount postId={post.id} />
                                     </div>
                                 </div>
                             </div>
@@ -197,6 +283,7 @@ class PostsFeed extends Component {
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterText}>Text</button>
                 </div>
                 {this.showPosts()}
+                <FloatingButton changeInputValues={this.changeInputValues} postContent={this.state.postContent} imageUrl={this.state.imageUrl} videoUrl={this.state.videoUrl} createTextPost={this.createTextPost} createImagePost={this.createImagePost} createVideoPost={this.createVideoPost} />
             </>
         );
     }
