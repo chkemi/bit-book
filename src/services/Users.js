@@ -19,7 +19,7 @@ const fetchUserById = (userId) => {
     })
         .then(result => result.json())
         .then(user => user.about
-            ? new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
+            ? new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
             : new User(user.id, 'http://via.placeholder.com/125', user.name, 'No bio', [], [], user.createdAt)
         )
 }
@@ -34,7 +34,7 @@ const fetchLoggedInUser = () => {
         }
     })
         .then(result => result.json())
-        .then(user => new User(user.id, 'http://via.placeholder.com/125', user.name, 'No bio', user.comments, user.posts))
+        .then(user => new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt))
         .catch(err => new User(0, 'http://via.placeholder.com/125', { first: 'anonymous', last: 'anonymous' }, ['no user'], 0, 0));
 }
 
@@ -48,7 +48,7 @@ const fetchUsers = () => {
     })
         .then(res => res.json())
         .then(users => users.map(user => user.about
-            ? new User(user.id, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
+            ? new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
             : new User(user.id, 'http://via.placeholder.com/125', user.name, 'No bio', [], [], user.createdAt))
         )
 }
