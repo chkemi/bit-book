@@ -73,7 +73,7 @@ class RegisterPage extends Component {
         return (
             <>
                 <div className='row'>
-                    <div className='register col s7'>
+                    <div className='register col s6'>
                         <h1>BitBook Register and Login</h1>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt et voluptatum aliquam accusamus consequuntur distinctio nulla consectetur, dolorum dignissimos necessitatibus commodi. Nulla, maxime sint architecto ex itaque harum quas, quidem iusto eligendi laudantium, magni maiores quos. Odio necessitatibus ipsa laboriosam?</p>
                     </div>

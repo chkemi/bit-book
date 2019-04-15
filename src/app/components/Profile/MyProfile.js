@@ -26,6 +26,7 @@ class MyProfile extends Component {
     fetchUserData = () => {
         fetchLoggedInUser()
             .then(user => {
+                console.log(user);
                 this.setState({
                     user: user,
                     comments: user.comments,
@@ -45,11 +46,17 @@ class MyProfile extends Component {
 
         UpdateProfile(getDecodedId(), body)
             .then((user) => {
-                console.log(user);
                 this.setState({
-                    user
+                    user: {
+                        avatarUrl: user.avatarUrl,
+                        firstName: user.name.first,
+                        lastName: user.name.last,
+                        biography: user.about.bio
+                    }
                 })
             })
+
+        this.closeModal();
     }
 
     openModal = () => {
@@ -65,7 +72,6 @@ class MyProfile extends Component {
     }
 
     render() {
-        console.log(this.state.user);
         if (!this.state.user) {
             return null;
         }

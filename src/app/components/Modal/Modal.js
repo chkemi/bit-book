@@ -2,8 +2,6 @@ import React from 'react';
 
 import './Modal.css';
 
-
-
 class Modal extends React.Component {
     constructor(props) {
         super(props);
@@ -73,7 +71,6 @@ class Modal extends React.Component {
     }
 
     render() {
-        console.log(this.props.user);
         const validationResultName = this.isValidName(this.state.name);
         const validationResultBio = this.isValidBio(this.state.bio)
         const validationResultImg = this.isValidImg(this.state.image)
@@ -96,12 +93,12 @@ class Modal extends React.Component {
                         <div className="input-field col s5 " id="full_name"><p className="left">Full Name:</p>
                             <input
                                 name="name"
-                                placeholder="Name"
+                                placeholder="Full Name"
                                 onChange={this.handleInputChange}
                                 id="first_name" type="text"
                                 className="validate"
                                 defaultValue={this.state.name} />
-                            {validationResultName.error && <p style={{ color: 'red', width: '50px' }}>{validationResultName.error}</p>}
+                            {<p style={{ color: 'red', width: '50px' }}>{validationResultName.error}</p>}
 
                         </div>
                     </div>
@@ -117,7 +114,7 @@ class Modal extends React.Component {
                                 defaultValue={this.state.image}
                             />
                         </label>
-                        {validationResultImg.error && <p id="error" style={{ color: 'red', width: '50px' }}>{validationResultImg.error}</p>}
+                        {<p id="error" style={{ color: 'red', width: '50px' }}>{validationResultImg.error}</p>}
                     </div>
                     <div className="row"><p>Biography:</p>
 
@@ -125,13 +122,13 @@ class Modal extends React.Component {
 
                             <input
                                 name='bio'
-                                placeholder="User description and all text that descirbes user"
+                                placeholder="User description and all text that describes user"
                                 id="biography" onChange={this.handleInputChange}
                                 type="text" className="validate"
                                 defaultValue={this.state.bio}
                             />
                         </label>
-                        {validationResultBio.error && <p id="error" style={{ color: 'red', width: '50px' }}>{validationResultBio.error}</p>}
+                        {<p id="error" style={{ color: 'red', width: '50px' }}>{validationResultBio.error}</p>}
                     </div>
                     <div className="row">
                         <button className="btn waves-effect waves-light btn-mrg-1" onClick={this.props.close}>CLOSE</button>

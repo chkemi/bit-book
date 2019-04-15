@@ -14,7 +14,8 @@ const fetchCommentsByPostId = (id) => {
         .then(comments => {
             console.log(comments);
             return comments.map(comment => {
-                if (!comment.user.avatarUrl) {
+                console.log(comment);
+                if (!comment.user) {
                     return new Comment(comment.id, comment.postId, comment.userId, comment.body, 'http://via.placeholder.com/125')
                 }
                 return new Comment(comment.id, comment.postId, comment.userId, comment.body, comment.user.avatarUrl)
@@ -41,6 +42,19 @@ const postComment = (data) => {
         .then(comment => new Comment(comment.sid, comment.postId, comment.userId, comment.body))
 }
 
+const fetchDeleteComment = (id) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/comments/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+    })
+        .then(res => res.json())
+        .then(res => res)
+}
+
 const fetchNumOfComments = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/comments?postId=${id}&_limit=1`, {
         headers: {
@@ -55,4 +69,5 @@ export {
     fetchCommentsByPostId,
     postComment,
     fetchNumOfComments,
+    fetchDeleteComment,
 }

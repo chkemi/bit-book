@@ -3,7 +3,6 @@ import Modal from '../Modal/Modal'
 import PropTypes from 'prop-types';
 
 const Profile = (props) => {
-    console.log(props);
     return (
         <div className="row center profile">
             <div className="col s12 ">

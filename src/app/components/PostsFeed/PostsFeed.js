@@ -21,6 +21,7 @@ class PostsFeed extends Component {
         this.createTextPost = this.createTextPost.bind(this);
         this.createImagePost = this.createImagePost.bind(this);
         this.createVideoPost = this.createVideoPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
 
         this.filterText = this.filterText.bind(this);
         this.filterVideos = this.filterVideos.bind(this);
@@ -119,6 +120,14 @@ class PostsFeed extends Component {
         fetchDeletePost(e.target.id)
             .then((res) => {
                 console.log(res);
+
+                fetchPosts()
+                    .then((posts) => {
+                        const reversedPosts = posts.reverse()
+                        this.setState({
+                            posts: reversedPosts
+                        })
+                    })
             })
     }
 
