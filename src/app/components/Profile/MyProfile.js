@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { fetchLoggedInUser } from '../../../services/Users'
 import Profile from './Profile';
+import UpdateProfile from '../../../services/UpdateProfile'
+import { getDecodedId } from '../../../services/Users';
 
 import './MyProfile.css'
 
@@ -13,6 +15,8 @@ class MyProfile extends Component {
             posts: [],
             isShowing: false
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -36,6 +40,18 @@ class MyProfile extends Component {
         }
     }
 
+    handleSubmit = (body) => (e) => {
+        e.preventDefault();
+
+        UpdateProfile(getDecodedId(), body)
+            .then((user) => {
+                console.log(user);
+                this.setState({
+                    user
+                })
+            })
+    }
+
     openModal = () => {
         this.setState({
             isShowing: true
@@ -49,13 +65,14 @@ class MyProfile extends Component {
     }
 
     render() {
+        console.log(this.state.user);
         if (!this.state.user) {
             return null;
         }
 
         return (
             <>
-                <Profile isShowing={this.state.isShowing} user={this.state.user} comments={this.state.comments} posts={this.state.posts} closeModal={this.closeModal} openModal={this.openModal} />
+                <Profile isShowing={this.state.isShowing} user={this.state.user} comments={this.state.comments} posts={this.state.posts} closeModal={this.closeModal} openModal={this.openModal} handleSubmit={this.handleSubmit} />
             </>
         )
     }

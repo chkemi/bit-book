@@ -1,20 +1,20 @@
 import React from 'react';
 
 import './Modal.css';
-import updateProfile from '../../../services/UpdateProfile';
-import { getDecodedId } from '../../../services/Users';
+
+
 
 class Modal extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            firstName: props.user.firstName,
+            lastName: props.user.lastName,
             name: `${props.user.firstName} ${props.user.lastName}`,
             bio: props.user.biography,
             image: props.user.avatarUrl
         }
-
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleInputChange = (e) => {
@@ -55,47 +55,42 @@ class Modal extends React.Component {
         return true
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-
+    getInputValues = (params) => {
         const body = {
-            id: getDecodedId(),
-            name: this.state.name,
             avatarUrl: this.state.image,
-            biography: this.state.bio
+            name: {
+                prefix: "-",
+                first: this.state.firstName,
+                last: this.state.lastName,
+            },
+            about: {
+                job: '-',
+                bio: this.state.bio,
+                countryCode: '-'
+            }
         }
-
-        updateProfile(getDecodedId(), body)
-            .then((result) => {
-                console.log(result);
-
-                this.setState({
-                    name: result.name,
-                    bio: result.bio,
-                    image: result.image
-                })
-            })
+        return body;
     }
 
     render() {
+        console.log(this.props.user);
         const validationResultName = this.isValidName(this.state.name);
         const validationResultBio = this.isValidBio(this.state.bio)
         const validationResultImg = this.isValidImg(this.state.image)
 
         return (
-
             <div className="modal-wrapper "
                 style={{
                     transform: this.props.show ? 'translateY(0vh)' : 'translateY(-100vh)',
                     opacity: this.props.show ? '1' : '0'
                 }}>
-                <form onSubmit={this.handleSubmit}>
+                <form>
                     <div className="row">
                         <div className="col s6 "><h4>Update profile</h4></div>
                     </div>
                     <div className="row" >
                         <div className="col s5 center">
-                            <img src={this.props.user.avatarUrl} title="user" alt='Something..' />
+                            <img className='modal-pic' src={this.props.user.avatarUrl} title="user" alt='Something..' />
 
                         </div>
                         <div className="input-field col s5 " id="full_name"><p className="left">Full Name:</p>
@@ -140,7 +135,7 @@ class Modal extends React.Component {
                     </div>
                     <div className="row">
                         <button className="btn waves-effect waves-light btn-mrg-1" onClick={this.props.close}>CLOSE</button>
-                        <button className="btn waves-effect waves-light btn-mrg-2" type="submit" disabled={validationResultBio.error || validationResultImg.error || validationResultName.error} name="action">UPDATE</button>
+                        <button className="btn waves-effect waves-light btn-mrg-2" type="submit" disabled={validationResultBio.error || validationResultImg.error || validationResultName.error} name="action" onClick={this.props.handleSubmit(this.getInputValues())} >UPDATE</button>
                     </div>
                 </form>
             </div >
