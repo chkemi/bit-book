@@ -1,16 +1,23 @@
-// const updateProfile = (userId, body) => {
-//     return fetch((`http://book-api-dev.hypetech.xyz/users/${userId}`, {
-//         method: 'PATCH',
-//         headers: {
-//             'x-api-key': 'B1tD3V',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(body)
-//     })).then(result => {
-//         console.log(body);
-//         console.log(result);
-//         return result.json()
-//     })
-// }
+import { getToken } from "./Users";
 
-// export default updateProfile;
+const UpdateProfile = (userId, body) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify(body)
+    })
+        .then((res) => {
+            console.log(res);
+            return res.json()
+        })
+        .then((result) => {
+            console.log(result);
+            return result
+        });
+}
+
+export default UpdateProfile;
