@@ -13,7 +13,8 @@ const fetchUserById = (userId) => {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(result => result.json())
@@ -41,7 +42,8 @@ const fetchUsers = () => {
     return fetch('https://book-api.hypetech.xyz/v1/users', {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V'
+            'x-api-key': 'B1tD3V',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(res => res.json())

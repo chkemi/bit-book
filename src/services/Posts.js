@@ -6,6 +6,7 @@ const fetchPosts = () => {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(res => res.json())
@@ -27,7 +28,8 @@ const fetchSinglePost = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V'
+            'x-api-key': 'B1tD3V',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(res => res.json())
