@@ -55,7 +55,7 @@ class PeoplePage extends Component {
             .map((user) => (
                 <div key={user.id} className='row user clearfix valign-wrapper'>
                     <div className='image left col s2'>
-                        <img src={user.avatarUrl} alt='Something..' />
+                        <img className="img-people" src={user.avatarUrl} alt='Something..' />
                     </div>
                     <div className='info col s9'>
                         <h5><Link to={`profile/${user.id}`}>{`${user.firstName} ${user.lastName}`}</Link></h5>

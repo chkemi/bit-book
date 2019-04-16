@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchPosts, fetchCreatePost } from '../../../services/Posts';
+import { fetchPosts, fetchCreatePost, fetchDeletePost } from '../../../services/Posts';
 import FloatingButton from '../FloatingButton';
-import CommentsCount from './CommentsCount';
+import PostItem from './PostItem';
 
 class PostsFeed extends Component {
     constructor(props) {
@@ -16,12 +15,14 @@ class PostsFeed extends Component {
             postContent: '',
             imageUrl: '',
             videoUrl: '',
+
         }
 
         this.changeInputValues = this.changeInputValues.bind(this);
         this.createTextPost = this.createTextPost.bind(this);
         this.createImagePost = this.createImagePost.bind(this);
         this.createVideoPost = this.createVideoPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
 
         this.filterText = this.filterText.bind(this);
         this.filterVideos = this.filterVideos.bind(this);
@@ -114,6 +115,23 @@ class PostsFeed extends Component {
             })
     }
 
+    deletePost(e) {
+        e.preventDefault();
+
+        fetchDeletePost(e.target.id)
+            .then((res) => {
+                console.log(res);
+
+                fetchPosts()
+                    .then((posts) => {
+                        const reversedPosts = posts.reverse()
+                        this.setState({
+                            posts: reversedPosts
+                        })
+                    })
+            })
+    }
+
     showPosts() {
         if (!this.state.posts.length) {
             return <h1 className='center'>Loading...</h1>
@@ -123,51 +141,16 @@ class PostsFeed extends Component {
             return this.state.posts.map((post) => {
                 if (post.isText()) {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div className="card-content brown-text text-darken-4">
-                                        <p className='center'>{post.text}</p>
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                        <CommentsCount postId={post.id} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Text' />
                     )
                 } else if (post.isPicture()) {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div className="card-image">
-                                        <img src={post.imageUrl} alt='Something' />
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                        <CommentsCount postId={post.id} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Image'
+                        />
                     )
                 } else {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div key={post.id}>
-                                        <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                        <CommentsCount postId={post.id} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Video' />
                     )
                 }
             })
@@ -175,19 +158,7 @@ class PostsFeed extends Component {
             return this.state.posts.map((post) => {
                 if (post.isPicture()) {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div className="card-image">
-                                        <img src={post.imageUrl} alt='Something' />
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Image post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Image' />
                     )
                 }
                 return null;
@@ -196,19 +167,7 @@ class PostsFeed extends Component {
             return this.state.posts.map((post) => {
                 if (post.isText()) {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div className="card-content brown-text text-darken-4">
-                                        <p className='center'>{post.text}</p>
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Text post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Text' />
                     )
                 }
                 return null;
@@ -217,19 +176,7 @@ class PostsFeed extends Component {
             return this.state.posts.map((post) => {
                 if (post.isVideo()) {
                     return (
-                        <div key={post.id} className="row">
-                            <div className="col s12">
-                                <div className="card teal lighten-4">
-                                    <div key={post.id}>
-                                        <iframe title={post.id} width="100%" height='400px' src={post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                                    </div>
-                                    <div className="card-action">
-                                        <Link to={`/feeds/${post.id}`} className='brown-text text-darken-4'>Video post</Link>
-                                        <Link className='right brown-text text-darken-4' to={`/feeds/${post.id}`}>{post.comments.length} Comments</Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Video' />
                     )
                 }
                 return null

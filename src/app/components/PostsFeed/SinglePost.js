@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { fetchSinglePost } from '../../../services/Posts';
 import { getDecodedId } from '../../../services/Users';
-import { postComment, fetchCommentsByPostId } from '../../../services/Comments';
+import { postComment, fetchCommentsByPostId, fetchDeleteComment } from '../../../services/Comments';
 
 import './SinglePost.css'
 
@@ -15,6 +15,7 @@ class SinglePost extends Component {
         }
 
         this.changeValue = this.changeValue.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
         this.submitComment = this.submitComment.bind(this);
     }
 
@@ -53,6 +54,24 @@ class SinglePost extends Component {
         postComment(body)
             .then((comment) => {
                 console.log(comment);
+
+                fetchCommentsByPostId(this.props.match.params.id)
+                    .then((comments) => {
+                        const reversedComments = comments.reverse()
+                        this.setState({
+                            comments: reversedComments,
+                            commentInputValue: ''
+                        })
+                    })
+            })
+    }
+
+    deleteComment = (e) => {
+        e.preventDefault();
+
+        fetchDeleteComment(e.target.id)
+            .then((res) => {
+                console.log(res);
 
                 fetchCommentsByPostId(this.props.match.params.id)
                     .then((comments) => {
@@ -107,6 +126,7 @@ class SinglePost extends Component {
                 <div key={this.state.post.id} className="row post">
                     <div className="col s12">
                         <div className="card teal lighten-4">
+
                             <div key={this.state.post.id}>
                                 <iframe title={this.state.post.id} width="100%" height='400px' src={this.state.post.videoUrl} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             </div>
@@ -128,6 +148,10 @@ class SinglePost extends Component {
                     <div className="col s12">
                         <div className="card">
                             <div className="card-image">
+                                {comment.userId === getDecodedId()
+                                    ? <button id={comment.id} onClick={this.deleteComment} className='delete right'>x</button>
+                                    : null
+                                }
                                 <img className='comment-image' src={comment.userAvatarUrl ? comment.userAvatarUrl : 'http://via.placeholder.com/125'} alt='Something' />
                             </div>
                             <div className="card-content">

@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const getDecodedId = () => {
     const decoded = jwtDecode(localStorage.getItem('user'))
+    console.log(decoded);
     return decoded.id;
 }
 
@@ -13,13 +14,12 @@ const fetchUserById = (userId) => {
         method: 'GET',
         headers: {
             'x-api-key': 'B1tD3V',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(result => result.json())
-        .then(user => user.about
-            ? new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
-            : new User(user.id, 'http://via.placeholder.com/125', user.name, 'No bio', [], [], user.createdAt)
+        .then(user => new User(user)
         )
 }
 
@@ -33,21 +33,23 @@ const fetchLoggedInUser = () => {
         }
     })
         .then(result => result.json())
-        .then(user => new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt))
-        .catch(err => new User(0, 'http://via.placeholder.com/125', { first: 'anonymous', last: 'anonymous' }, ['no user'], 0, 0));
+        .then(user => {
+            console.log(user);
+            return new User(user)
+        })
+        .catch(err => console.log(err));
 }
 
 const fetchUsers = () => {
     return fetch('https://book-api.hypetech.xyz/v1/users', {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V'
+            'x-api-key': 'B1tD3V',
+            'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(res => res.json())
-        .then(users => users.map(user => user.about
-            ? new User(user.id, user.sid, user.email, user.avatarUrl, user.name, user.about.bio, user.comments, user.posts, user.createdAt)
-            : new User(user.id, 'http://via.placeholder.com/125', user.name, 'No bio', [], [], user.createdAt))
+        .then(users => users.map(user => new User(user))
         )
 }
 
