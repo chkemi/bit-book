@@ -3,12 +3,20 @@ import { Link } from 'react-router-dom';
 import { getDecodedId } from '../../../services/Users';
 import CommentsCount from './CommentsCount';
 import PropTypes from "prop-types";
+import M from 'materialize-css';
 
 class PostItem extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
 
+        }
+
+    }
+
+    componentDidMount() {
+        const elems = document.querySelectorAll('.materialboxed');
+        const instances = M.Materialbox.init(elems);
     }
 
     static propTypes = {
@@ -18,6 +26,8 @@ class PostItem extends Component {
     }
 
     render() {
+
+
         return (
             <div className="row">
                 <div className="col s12">
@@ -33,10 +43,13 @@ class PostItem extends Component {
                             : null}
 
                         {this.props.type === 'Image'
-                            ? <div className="card-image">
-                                <img src={this.props.post.imageUrl} alt='Something' />
+                            ? <div className="card-image ">
+                                <img className="materialboxed  responsive-img" src={this.props.post.imageUrl} width="1500px" alt='Something' />
+
                             </div>
                             : null}
+
+
 
                         {this.props.type === 'Video'
                             ? <div>
@@ -54,5 +67,6 @@ class PostItem extends Component {
         );
     }
 }
+
 
 export default PostItem;
