@@ -73,9 +73,45 @@ const fetchDeletePost = (id) => {
         })
 }
 
+const fetchNumOfPosts = () => {
+    return fetch('https://book-api.hypetech.xyz/v1/posts?_page=1', {
+        headers: {
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        }
+    }).then(res => res.headers.get('x-total-count'))
+}
+
+
+const fetchPageOne = (id) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/posts?_page=${id}`, {
+        headers: {
+            'x-api-key': 'B1tD3V',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        }
+    }).then(res => res.json())
+    .then(posts => {
+        return posts.map((post) => {
+            if (post.type === 'text') {
+                return new TextPost(post.id, post.userId, post.type, post.comments, post.text)
+            } else if (post.type === 'image') {
+                return new ImagePost(post.id, post.userId, post.type, post.comments, post.imageUrl)
+            } else if (post.type === 'video') {
+                return new VideoPost(post.id, post.userId, post.type, post.comments, post.videoUrl)
+            }
+            return null
+        });
+    })
+}
+
+
 export {
     fetchPosts,
     fetchSinglePost,
     fetchCreatePost,
     fetchDeletePost,
+    fetchNumOfPosts,
+    fetchPageOne
 }

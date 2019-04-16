@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { fetchPosts, fetchCreatePost, fetchDeletePost } from '../../../services/Posts';
+import { fetchPosts, fetchCreatePost, fetchDeletePost, fetchNumOfPosts, fetchPageOne } from '../../../services/Posts';
 import FloatingButton from '../FloatingButton';
 import PostItem from './PostItem';
+import './Post.css'
+
 
 class PostsFeed extends Component {
     constructor(props) {
@@ -15,7 +17,10 @@ class PostsFeed extends Component {
             postContent: '',
             imageUrl: '',
             videoUrl: '',
-
+            currentPage: 1,
+            postsPerPage: 10,
+            currentPosts: [],
+            totalCount: null,
         }
 
         this.changeInputValues = this.changeInputValues.bind(this);
@@ -28,7 +33,21 @@ class PostsFeed extends Component {
         this.filterVideos = this.filterVideos.bind(this);
         this.filterImages = this.filterImages.bind(this);
         this.allPosts = this.allPosts.bind(this);
+        this.handlePage = this.handlePage.bind(this)
+
+       
     }
+
+    handlePage(e) {
+       return fetchPageOne(e.target.id)
+        .then((posts) => {
+            const reversedPosts = posts.reverse()
+            this.setState({
+                posts: reversedPosts,
+            })
+        })
+      }
+
 
     changeInputValues(e) {
         this.setState({
@@ -37,11 +56,18 @@ class PostsFeed extends Component {
     }
 
     componentDidMount() {
-        fetchPosts()
-            .then((posts) => {
-                const reversedPosts = posts.reverse()
+        fetchPageOne(1)
+        .then((posts) => {
+            const reversedPosts = posts.reverse()
+            this.setState({
+                posts: reversedPosts,
+            })
+        })
+        
+        fetchNumOfPosts()
+            .then((totalCount) => {
                 this.setState({
-                    posts: reversedPosts
+                    totalCount
                 })
             })
     }
@@ -153,6 +179,7 @@ class PostsFeed extends Component {
                         <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Video' />
                     )
                 }
+
             })
         } else if (this.state.onlyImages) {
             return this.state.posts.map((post) => {
@@ -221,6 +248,18 @@ class PostsFeed extends Component {
     }
 
     render() {
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(this.state.totalCount / this.state.postsPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+            return (
+              <li className="page" key={number}id={number} onClick={this.handlePage}>{number}</li>
+            );
+          });
+
         return (
             <>
                 <div className='row'>
@@ -230,6 +269,7 @@ class PostsFeed extends Component {
                     <button className="waves-effect waves-light btn col s3" onClick={this.filterText}>Text</button>
                 </div>
                 {this.showPosts()}
+               <ul className="numbers"> {renderPageNumbers}</ul>
                 <FloatingButton changeInputValues={this.changeInputValues} postContent={this.state.postContent} imageUrl={this.state.imageUrl} videoUrl={this.state.videoUrl} createTextPost={this.createTextPost} createImagePost={this.createImagePost} createVideoPost={this.createVideoPost} />
             </>
         );

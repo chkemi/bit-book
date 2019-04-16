@@ -1,0 +1,9 @@
+.numbers{
+    display: flex;
+    justify-content: center;
+}
+
+.page{
+    margin: 10px 30px;
+    cursor: pointer;
+}
