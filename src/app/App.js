@@ -49,7 +49,6 @@ class App extends Component {
             <Route path='/profile/:id' component={UserProfile} />
             <Route path='/profile' component={MyProfile} />
             <Route path='/feeds/:id' component={SinglePost} />
-            {/* <Route path='/feeds' component={PostsFeed} /> */}
             <Route path='/' component={PostsFeed} />
           </Switch>
         </main>

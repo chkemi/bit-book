@@ -7,7 +7,10 @@ const fetchRegister = (dataObj) => {
         },
         body: JSON.stringify(dataObj)
     })
-        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            return res.json()
+        })
         .then(token => token)
 }
 

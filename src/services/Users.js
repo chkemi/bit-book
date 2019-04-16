@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const getDecodedId = () => {
     const decoded = jwtDecode(localStorage.getItem('user'))
+    console.log(decoded);
     return decoded.id;
 }
 
