@@ -1,9 +1,9 @@
 import { User } from '../models/User'
 import jwtDecode from "jwt-decode";
+import apiKey from '../shared/api';
 
 const getDecodedId = () => {
     const decoded = jwtDecode(localStorage.getItem('user'))
-    console.log(decoded);
     return decoded.id;
 }
 
@@ -13,7 +13,7 @@ const fetchUserById = (userId) => {
     return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}?_embed[]=posts&_embed[]=comments`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         }
@@ -27,7 +27,7 @@ const fetchLoggedInUser = () => {
     return fetch(`https://book-api.hypetech.xyz/v1/users/${getDecodedId()}?_embed[]=posts&_embed[]=comments`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         }
@@ -44,7 +44,7 @@ const fetchUsers = () => {
     return fetch('https://book-api.hypetech.xyz/v1/users', {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Authorization': `Bearer ${getToken()}`
         }
     })

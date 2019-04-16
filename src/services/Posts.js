@@ -1,11 +1,12 @@
 import { TextPost, ImagePost, VideoPost } from "../models/Post";
 import { getToken } from "./Users";
+import apiKey from "../shared/api";
 
-const fetchPosts = () => {
-    return fetch('https://book-api.hypetech.xyz/v1/posts?_embed=comments', {
+const fetchPosts = (num) => {
+    return fetch(`https://book-api.hypetech.xyz/v1/posts?_limit=${num}&_embed=comments`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Authorization': `Bearer ${getToken()}`
         }
     })
@@ -28,7 +29,7 @@ const fetchSinglePost = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Authorization': `Bearer ${getToken()}`
         }
     })
@@ -49,7 +50,7 @@ const fetchCreatePost = (dataObj) => {
     return fetch('https://book-api.hypetech.xyz/v1/posts', {
         method: 'POST',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         },
@@ -63,7 +64,7 @@ const fetchDeletePost = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
         method: 'DELETE',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         }

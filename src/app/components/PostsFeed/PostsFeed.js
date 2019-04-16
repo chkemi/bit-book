@@ -8,14 +8,15 @@ class PostsFeed extends Component {
         super(props);
         this.state = {
             posts: [],
+
             allPosts: true,
             onlyImages: false,
             onlyVideos: false,
             onlyText: false,
+
             postContent: '',
             imageUrl: '',
             videoUrl: '',
-
         }
 
         this.changeInputValues = this.changeInputValues.bind(this);
@@ -28,22 +29,37 @@ class PostsFeed extends Component {
         this.filterVideos = this.filterVideos.bind(this);
         this.filterImages = this.filterImages.bind(this);
         this.allPosts = this.allPosts.bind(this);
+
+        this.slice = 5;
+        this.progress = false;
+
+        window.onscroll = () => {
+            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight && !this.progress) {
+                this.slice += 5;
+                this.loadPosts();
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.loadPosts();
+    }
+
+    loadPosts = () => {
+        this.progress = true;
+        fetchPosts(this.slice)
+            .then(posts => {
+                this.setState({
+                    posts
+                })
+                this.progress = false;
+            })
     }
 
     changeInputValues(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
-
-    componentDidMount() {
-        fetchPosts()
-            .then((posts) => {
-                const reversedPosts = posts.reverse()
-                this.setState({
-                    posts: reversedPosts
-                })
-            })
     }
 
     createTextPost(e) {
@@ -184,6 +200,15 @@ class PostsFeed extends Component {
         }
     }
 
+    allPosts(e) {
+        this.setState({
+            allPosts: true,
+            onlyImages: false,
+            onlyVideos: false,
+            onlyText: false,
+        })
+    }
+
     filterText(e) {
         this.setState({
             allPosts: false,
@@ -206,15 +231,6 @@ class PostsFeed extends Component {
         this.setState({
             allPosts: false,
             onlyImages: true,
-            onlyVideos: false,
-            onlyText: false,
-        })
-    }
-
-    allPosts(e) {
-        this.setState({
-            allPosts: true,
-            onlyImages: false,
             onlyVideos: false,
             onlyText: false,
         })

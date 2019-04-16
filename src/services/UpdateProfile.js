@@ -1,10 +1,11 @@
 import { getToken } from "./Users";
+import apiKey from "../shared/api";
 
 const UpdateProfile = (userId, body) => {
     return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}`, {
         method: 'PATCH',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         },

@@ -1,20 +1,19 @@
 import { Comment } from "../models/Comment";
 import { getToken } from "./Users";
+import apiKey from "../shared/api";
 
 const fetchCommentsByPostId = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/comments?postId=${id}&_expand=user`, {
         method: 'GET',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         }
     })
         .then(res => res.json())
         .then(comments => {
-            console.log(comments);
             return comments.map(comment => {
-                console.log(comment);
                 if (!comment.user) {
                     return new Comment(comment.id, comment.postId, comment.userId, comment.body, 'http://via.placeholder.com/125')
                 }
@@ -27,7 +26,7 @@ const postComment = (data) => {
     return fetch('https://book-api.hypetech.xyz/v1/comments', {
         method: 'POST',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         },
@@ -46,7 +45,7 @@ const fetchDeleteComment = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/comments/${id}`, {
         method: 'DELETE',
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`
         },
@@ -58,7 +57,7 @@ const fetchDeleteComment = (id) => {
 const fetchNumOfComments = (id) => {
     return fetch(`https://book-api.hypetech.xyz/v1/comments?postId=${id}&_limit=1`, {
         headers: {
-            'x-api-key': 'B1tD3V',
+            'x-api-key': apiKey,
             'Authorization': `Bearer ${getToken()}`
         }
     })
