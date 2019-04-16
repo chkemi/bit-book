@@ -31,10 +31,10 @@ class PostsFeed extends Component {
         this.allPosts = this.allPosts.bind(this);
 
         this.slice = 5;
-        this.progress = false;
+        this.loadingProgress = false;
 
         window.onscroll = () => {
-            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight && !this.progress) {
+            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight && !this.loadingProgress) {
                 this.slice += 5;
                 this.loadPosts();
             }
@@ -46,13 +46,13 @@ class PostsFeed extends Component {
     }
 
     loadPosts = () => {
-        this.progress = true;
+        this.loadingProgress = true;
         fetchPosts(this.slice)
             .then(posts => {
                 this.setState({
                     posts
                 })
-                this.progress = false;
+                this.loadingProgress = false;
             })
     }
 
