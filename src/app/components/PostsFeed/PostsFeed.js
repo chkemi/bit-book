@@ -15,6 +15,7 @@ class PostsFeed extends Component {
             postContent: '',
             imageUrl: '',
             videoUrl: '',
+
         }
 
         this.changeInputValues = this.changeInputValues.bind(this);
@@ -144,7 +145,8 @@ class PostsFeed extends Component {
                     )
                 } else if (post.isPicture()) {
                     return (
-                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Image' />
+                        <PostItem deletePost={this.deletePost} key={post.id} post={post} type='Image'
+                        />
                     )
                 } else {
                     return (
