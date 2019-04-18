@@ -75,12 +75,12 @@ class PostsFeed extends Component {
         fetchCreatePost(body)
             .then((post) => {
                 console.log(post);
-                fetchPosts()
-                    .then((posts) => {
-                        const reversedPosts = posts.reverse()
+                fetchPosts(this.slice)
+                    .then(posts => {
                         this.setState({
-                            posts: reversedPosts
+                            posts
                         })
+                        this.loadingProgress = false;
                     })
             })
     }
@@ -98,12 +98,12 @@ class PostsFeed extends Component {
         fetchCreatePost(body)
             .then((post) => {
                 console.log(post);
-                fetchPosts()
-                    .then((posts) => {
-                        const reversedPosts = posts.reverse()
+                fetchPosts(this.slice)
+                    .then(posts => {
                         this.setState({
-                            posts: reversedPosts
+                            posts
                         })
+                        this.loadingProgress = false;
                     })
             })
     }
@@ -121,12 +121,12 @@ class PostsFeed extends Component {
         fetchCreatePost(body)
             .then((post) => {
                 console.log(post);
-                fetchPosts()
-                    .then((posts) => {
-                        const reversedPosts = posts.reverse()
+                fetchPosts(this.slice)
+                    .then(posts => {
                         this.setState({
-                            posts: reversedPosts
+                            posts
                         })
+                        this.loadingProgress = false;
                     })
             })
     }
@@ -138,12 +138,12 @@ class PostsFeed extends Component {
             .then((res) => {
                 console.log(res);
 
-                fetchPosts()
-                    .then((posts) => {
-                        const reversedPosts = posts.reverse()
+                fetchPosts(this.slice)
+                    .then(posts => {
                         this.setState({
-                            posts: reversedPosts
+                            posts
                         })
+                        this.loadingProgress = false;
                     })
             })
     }
