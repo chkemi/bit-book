@@ -27,7 +27,7 @@ const fetchDeleteComment = (id) => {
 
 const fetchNumOfComments = (id) => {
     return api
-        .getNum(`comments?postId=${id}&_limit=1`)
+        .getNum(`/comments?postId=${id}&_limit=1`)
 }
 
 export {
