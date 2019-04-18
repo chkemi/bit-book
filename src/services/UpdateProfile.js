@@ -1,5 +1,5 @@
 import { getToken } from "./Users";
-import apiKey from "../shared/api";
+import { apiKey } from "../shared/api";
 
 const UpdateProfile = (userId, body) => {
     return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}`, {

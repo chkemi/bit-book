@@ -25,6 +25,7 @@ class SinglePost extends Component {
 
                 fetchCommentsByPostId(this.props.match.params.id)
                     .then((comments) => {
+                        console.log(comments);
                         const reversedComments = comments.reverse()
                         this.setState({
                             post,
@@ -143,6 +144,7 @@ class SinglePost extends Component {
 
     showComments() {
         return this.state.comments.map((comment) => {
+            console.log(comment);
             return (
                 <div key={comment.id} className="row">
                     <div className="col s12">

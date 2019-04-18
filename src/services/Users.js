@@ -1,6 +1,6 @@
-import { User } from '../models/User'
+import { User } from '../models/User';
 import jwtDecode from "jwt-decode";
-import apiKey from '../shared/api';
+import { api } from '../shared/api';
 
 const getDecodedId = () => {
     const decoded = jwtDecode(localStorage.getItem('user'))
@@ -10,47 +10,23 @@ const getDecodedId = () => {
 const getToken = () => localStorage.getItem('user');
 
 const fetchUserById = (userId) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/users/${userId}?_embed[]=posts&_embed[]=comments`, {
-        method: 'GET',
-        headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then(result => result.json())
+    return api
+        .get(`/users/${userId}?_embed[]=posts&_embed[]=comments`)
         .then(user => new User(user)
         )
 }
 
 const fetchLoggedInUser = () => {
-    return fetch(`https://book-api.hypetech.xyz/v1/users/${getDecodedId()}?_embed[]=posts&_embed[]=comments`, {
-        method: 'GET',
-        headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then(result => result.json())
-        .then(user => {
-            console.log(user);
-            return new User(user)
-        })
+    return api
+        .get(`/users/${getDecodedId()}?_embed[]=posts&_embed[]=comments`)
+        .then(user => new User(user))
         .catch(err => console.log(err));
 }
 
 const fetchUsers = () => {
-    return fetch('https://book-api.hypetech.xyz/v1/users', {
-        method: 'GET',
-        headers: {
-            'x-api-key': apiKey,
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then(res => res.json())
-        .then(users => users.map(user => new User(user))
-        )
+    return api
+        .get('/users')
+        .then(users => users.map(user => new User(user)))
 }
 
 export {

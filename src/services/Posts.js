@@ -1,16 +1,9 @@
 import { TextPost, ImagePost, VideoPost } from "../models/Post";
-import { getToken } from "./Users";
-import apiKey from "../shared/api";
+import { api } from "../shared/api";
 
 const fetchPosts = (num) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/posts?_limit=${num}&_embed=comments`, {
-        method: 'GET',
-        headers: {
-            'x-api-key': apiKey,
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then(res => res.json())
+    return api
+        .get(`/posts?_limit=${num}&_embed=comments`)
         .then(posts => {
             return posts.map((post) => {
                 if (post.type === 'text') {
@@ -26,14 +19,8 @@ const fetchPosts = (num) => {
 }
 
 const fetchSinglePost = (id) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
-        method: 'GET',
-        headers: {
-            'x-api-key': apiKey,
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then(res => res.json())
+    return api
+        .get(`/posts/${id}`)
         .then((singlePost) => {
             if (singlePost.type === 'text') {
                 return new TextPost(singlePost.id, singlePost.userId, singlePost.type, singlePost.comments, singlePost.text)
@@ -47,31 +34,14 @@ const fetchSinglePost = (id) => {
 }
 
 const fetchCreatePost = (dataObj) => {
-    return fetch('https://book-api.hypetech.xyz/v1/posts', {
-        method: 'POST',
-        headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        },
-        body: JSON.stringify(dataObj)
-    })
-        .then(res => res.json())
+    return api
+        .post(dataObj, `/posts`)
         .then(post => post)
 }
 
 const fetchDeletePost = (id) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/posts/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'x-api-key': apiKey,
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
-        .then((res) => {
-            console.log(res);
-        })
+    return api
+        .delete(`/posts/${id}`)
 }
 
 export {

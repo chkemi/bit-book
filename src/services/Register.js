@@ -1,18 +1,8 @@
-import apiKey from "../shared/api";
+import { api } from "../shared/api";
 
 const fetchRegister = (dataObj) => {
-    return fetch(`https://book-api.hypetech.xyz/v1/auth/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey
-        },
-        body: JSON.stringify(dataObj)
-    })
-        .then(res => {
-            console.log(res);
-            return res.json()
-        })
+    return api
+        .postReg(dataObj, `/auth/register`)
         .then(token => token)
 }
 

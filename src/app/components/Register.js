@@ -5,6 +5,7 @@ import { fetchRegister } from '../../services/Register';
 import M from 'materialize-css';
 import './Register.css';
 import { fetchLogin } from '../../services/Login';
+import { withRouter } from 'react-router';
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -205,4 +206,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
