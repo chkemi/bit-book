@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/bit-book/static/js/runtime~main.94184f26.js"
   },
   {
-    "revision": "2da423af40a951ccdaaa",
-    "url": "/bit-book/static/js/main.659c3328.chunk.js"
+    "revision": "f4ad8adefcf5af512d08",
+    "url": "/bit-book/static/js/main.021dd66c.chunk.js"
   },
   {
     "revision": "c8b00bc929f3053353d1",
     "url": "/bit-book/static/js/2.15acf322.chunk.js"
   },
   {
-    "revision": "2da423af40a951ccdaaa",
+    "revision": "f4ad8adefcf5af512d08",
     "url": "/bit-book/static/css/main.4e4bbf94.chunk.css"
   },
   {
-    "revision": "7a421ffc83f34295e53a5b7bfa612287",
+    "revision": "badd3c2060e055e9ddd1d84c12c611df",
     "url": "/bit-book/index.html"
   }
 ];
